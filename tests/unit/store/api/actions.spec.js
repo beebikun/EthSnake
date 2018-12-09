@@ -4,7 +4,7 @@ import actions from '@/store/api/actions';
 
 it('add block', () => {
   const idx = '1';
-  const block = { number: 1 };
+  const block = { number: 1, gasLimit: 10, gasUsed: 4 };
   const commit = jest.fn();
   const dispatch = jest.fn();
 

@@ -1,4 +1,4 @@
-const SIZE = { w: 8, h: 8, side: 64 };
+const SIZE = { w: 11, h: 11, side: 50 };
 SIZE.count = SIZE.w * SIZE.h;
 
 export default {

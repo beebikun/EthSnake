@@ -6,5 +6,5 @@ export default {
   },
   setEth (state, eth) {
     Vue.set(state, 'eth', eth);
-  },
+  }
 };

@@ -8,11 +8,12 @@ const localVue = createLocalVue();
 localVue.use(Vuex);
 
 const idx = '1';
-const blockIdx = '1';
+const blockIdx = '10';
 const TILE = Store.state.game.tiles[idx];
 const BLOCK = {
   miner: 'miner',
   number: 1,
+  idx: blockIdx,
 };
 
 function getWrapper(block = BLOCK) {
@@ -76,4 +77,28 @@ describe('block style', () => {
     expect(style)
       .toMatch(new RegExp(`${ name }: ${ value };`));
   }
+});
+
+
+it('idx element', () => {
+  const wrapper = getWrapper();
+  const idxElement = wrapper.find('.idx');
+  expect()
+  expect(idxElement.text())
+    .toEqual(blockIdx);
+});
+
+it('gas used element', () => {
+  const block = { ...BLOCK, gasLimit: 50, gasUsed: 25 };
+  const expected = '50.0%';
+  const wrapper = getWrapper(block);
+  expect(wrapper.vm.usedHeight)
+    .toEqual({
+      height: expected,
+    });
+  const gasElement = wrapper.find('.gasUsed');
+  expect(gasElement.exists())
+    .toBe(true);
+  expect(gasElement.attributes('style'))
+    .toEqual(`height: ${ expected };`);
 });

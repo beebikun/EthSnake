@@ -1,3 +1,4 @@
+import State from '@/store/api/state';
 import mutations from '@/store/api/mutations';
 
 it('set eth', () => {
@@ -10,6 +11,7 @@ it('set eth', () => {
   expect(state.eth)
     .toEqual(eth);
 });
+
 
 it('add block', () => {
   // mock state
