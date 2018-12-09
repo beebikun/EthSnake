@@ -1,17 +1,17 @@
-import actions from '@/store/game/actions';
+import actions from '@/store/game/tokens/actions';
 
 it('addToken', () => {
   const idx = '1';
   const blockIdx = 'blockIdx';
-  const getters = {
+  const rootGetters = {
     get getFree() {
       return idx;
     },
   };
-  const gettersSpy = jest.spyOn(getters, 'getFree', 'get');
+  const gettersSpy = jest.spyOn(rootGetters, 'getFree', 'get');
   const commit = jest.fn();
 
-  actions.addToken({ getters, commit }, blockIdx);
+  actions.addToken({ rootGetters, commit }, blockIdx);
   expect(gettersSpy)
     .toHaveBeenCalled();
   expect(commit)

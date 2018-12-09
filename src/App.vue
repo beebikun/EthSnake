@@ -21,6 +21,7 @@ export default {
     if (typeof web3 !== 'undefined') {
       const eth = new Eth(web3.currentProvider);
       this.isValid = true;
+      this.$store.dispatch('drawSnake');
       this.$store.dispatch('setEth', eth);
     }
   }

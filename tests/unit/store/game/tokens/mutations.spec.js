@@ -1,4 +1,4 @@
-import mutations from '@/store/game/mutations';
+import mutations from '@/store/game/tokens/mutations';
 
 
 it('addToken', () => {
@@ -6,12 +6,11 @@ it('addToken', () => {
   const idx = 2;
   const blockIdx = 'blockIdx';
   const state = {
-    tokens: {},
   };
   // apply mutation
   mutations.addToken(state, { idx, blockIdx });
   // assert result
-  expect(state.tokens)
+  expect(state)
     .toEqual({ [idx]: blockIdx });
 });
 
@@ -19,12 +18,10 @@ it('deleteToken', () => {
   // mock state
   const idx = 2;
   const blockIdx = 'blockIdx';
-  const state = {
-    tokens: { [idx]: blockIdx },
-  };
+  const state = { [idx]: blockIdx };
   // apply mutation
   mutations.deleteToken(state, idx);
   // assert result
-  expect(state.tokens)
+  expect(state)
     .toEqual({});
 });

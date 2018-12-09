@@ -1,4 +1,4 @@
-import state from '@/store/game/state';
+import state, { getMatrixPos, matrixToIdx } from '@/store/game/state';
 
 describe('SIZE', () => {
   it('initial', () => {
@@ -16,6 +16,30 @@ describe('SIZE', () => {
     expect(() => {
       state.SIZE.w = 'new value';
     }).toThrow();
+  });
+});
+
+it('CENTER', () => {
+  expect(state.CENTER)
+    .toEqual(72);
+});
+
+describe('getMatrixPos | matrixToIdx', () => {
+  const SIZE = state.SIZE;
+
+  it.each`
+    idx                 | y      | x
+    ${ 0 }              | ${ 0 } | ${ 0 }
+    ${ SIZE.w * 3 - 1 } | ${ 2 } | ${ SIZE.w - 1 }
+    ${ SIZE.w * 2 }     | ${ 2 } | ${ 0 }
+    ${ SIZE.w * 2 + 1 } | ${ 2 } | ${ 1 }
+  `('$idx => x: $x, y: $y', ({idx, x, y}) => {
+    const pos = getMatrixPos(idx);
+    expect(pos)
+      .toEqual({ x, y });
+    const result = matrixToIdx(x, y);
+    expect(result)
+      .toEqual(idx);
   });
 });
 
@@ -42,7 +66,3 @@ it('tiles', () => {
 
 });
 
-it('tokens', () => {
-  expect(state.tokens)
-    .toEqual({});
-});

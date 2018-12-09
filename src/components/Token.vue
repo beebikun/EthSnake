@@ -25,17 +25,17 @@ export default {
     ...mapState({
       tile: function (state) { return state.game.tiles[this.idx]; },
       block: function (state) { return state.api.blocks[this.blockIdx]; },
-      usedHeight: function (state) {
-        const max = this.block.gasLimit;
-        const value = this.block.gasUsed;
-        return {
-          height: (value * 100 / max).toFixed(1) + '%',
-        };
-      },
     }),
     avatar: function () {
       const url = `https://robohash.org/${ this.block.miner }`;
       return `url(${ url })`;
+    },
+    usedHeight: function () {
+      const max = this.block.gasLimit;
+      const value = this.block.gasUsed;
+      return {
+        height: (value * 100 / max).toFixed(1) + '%',
+      };
     },
     isPending: function () { return this.block.number === null; },
   },

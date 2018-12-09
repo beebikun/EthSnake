@@ -1,6 +1,6 @@
 export default {
-  addToken({ getters, commit }, blockIdx) {
-    const idx = getters.getFree;
+  addToken({ rootGetters, commit }, blockIdx) {
+    const idx = rootGetters.getFree;
     commit('addToken', { idx, blockIdx });
   },
   deleteToken({ commit }, idx) {

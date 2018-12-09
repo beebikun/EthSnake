@@ -9,6 +9,7 @@
            :idx="idx"
            :block-idx="blockIdx"
            />
+    <Snake />
   </div>
 </template>
 
@@ -17,12 +18,14 @@ import { mapState } from 'vuex';
 
 import Token from './Token.vue';
 import BgTile from './BgTile.vue';
+import Snake from './Snake.vue';
 
 export default {
   name: 'Board',
   components: {
     Token,
     BgTile,
+    Snake,
   },
   computed: mapState({
     tokens: state => state.game.tokens,

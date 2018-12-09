@@ -54,6 +54,15 @@ it('render bg tiles', () => {
     .toHaveLength(TILES_COUNT);
 });
 
+it('render snake', () => {
+  const store = getStore();
+  const wrapper = shallowMount(Board, { localVue, store });
+
+  const snake = wrapper.find({ name: 'Snake' });
+  expect(snake.exists())
+    .toBe(true);
+});
+
 describe('board size', () => {
   const store = getStore();
   const wrapper = shallowMount(Board, { localVue, store });

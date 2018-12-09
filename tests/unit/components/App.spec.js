@@ -44,9 +44,12 @@ it('renders normal case', () => {
   expect(wApp.exists())
     .toBe(true);
 
+  expect(mockedDispatch)
+    .toHaveBeenNthCalledWith(1, 'drawSnake');
+
   const eth = expect.any(Eth);
   expect(mockedDispatch)
-    .toHaveBeenCalledWith('setEth', eth);
+    .toHaveBeenNthCalledWith(2, 'setEth', eth);
   expect(Store.state.api.eth)
     .toEqual(eth);
 
