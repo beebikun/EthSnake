@@ -3,15 +3,11 @@ import Vuex from 'vuex';
 
 Vue.use(Vuex);
 
-import actions from './actions';
-import getters from './getters';
-import mutations from './mutations';
+import api from './api';
+import game from './game';
 
 export default new Vuex.Store({
-  state: {
-    blocks: []
+  modules: {
+    api, game,
   },
-  getters,
-  actions,
-  mutations,
 });

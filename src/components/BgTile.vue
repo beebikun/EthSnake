@@ -1,36 +1,32 @@
 <template>
-  <div class="block">
+  <div class="bg-tile" :style="tile.style">
   </div>
 
 </template>
 
 <script>
-import Vue from 'vue';
-import Component from 'vue-class-component';
 
-export default
-@Component({
+export default {
+  name: 'BgTile',
   props: {
-    block: Object,
-  },
-})
-class BgBlock extends Vue {
-}
+    tile: Object
+  }
+};
 
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-  .block {
+  .bg-tile {
     background-image: radial-gradient(rgba(3, 134, 3, 0.5), rgba(0, 174, 0, 1));
     border: 3px solid #00de00;
     width: 64px;
     height: 64px;
-    position: relative;
+    position: absolute;
     z-index: 0;
     box-sizing: border-box;
   }
-  .block:after {
+  .bg-tile:after {
     content: '';
     display: block;
     position: absolute;
@@ -39,7 +35,5 @@ class BgBlock extends Vue {
     right: -3px;
     top:-3px;
     bottom: -3px;
-  }
-  .pending {
   }
 </style>

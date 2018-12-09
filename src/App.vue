@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <W3App :eth="eth" v-if="eth" />
+    <Board v-if="isValid" />
     <div id="validation-error" v-else >
       Sorry, you have to use MetaMask 🦊
     </div>
@@ -8,24 +8,24 @@
 </template>
 
 <script>
-import Vue from 'vue';
-import Component from 'vue-class-component';
 import Eth from 'web3-eth';
-import W3App from './components/W3App.vue'
+import Board from './components/Board.vue';
 
-export default
-@Component({
+export default {
+  name: 'App',
+  data: () => ({ isValid: false }),
   components: {
-    W3App
-  }
-})
-class App extends Vue {
-  created() {
+    Board
+  },
+  created: function () {
     if (typeof web3 !== 'undefined') {
-      this.eth = new Eth(web3.currentProvider);
+      const eth = new Eth(web3.currentProvider);
+      this.isValid = true;
+      this.$store.dispatch('setEth', eth);
     }
   }
-}
+};
+
 </script>
 
 <style>
