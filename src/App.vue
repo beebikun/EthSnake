@@ -1,17 +1,29 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <W3App :eth="eth" v-if="eth" />
+    <div id="validation-error" v-else >
+      Sorry, you have to use MetaMask 🦊
+    </div>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import Vue from 'vue';
+import Component from 'vue-class-component';
+import Eth from 'web3-eth';
+import W3App from './components/W3App.vue'
 
-export default {
-  name: 'app',
+export default
+@Component({
   components: {
-    HelloWorld
+    W3App
+  }
+})
+class App extends Vue {
+  created() {
+    if (typeof web3 !== 'undefined') {
+      this.eth = new Eth(web3.currentProvider);
+    }
   }
 }
 </script>
@@ -23,6 +35,8 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+  display: flex;
+  justify-content: center;
+  background: black;
 }
 </style>
