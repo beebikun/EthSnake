@@ -41,14 +41,44 @@ it('useTile', () => {
 });
 
 
-describe('idxBelow', () => {
-  it.each`
-  idx                        | expected
-  ${ 0 }                     | ${ State.SIZE.w }
-  ${ State.SIZE.count + 1 } | ${ null }
-  `('$idx => $expected', ({ idx, expected }) => {
-    const result = getters.idxBelow(State)(idx);
-    expect(result)
-      .toEqual(expected);
+describe('neightborIdx', () => {
+  const rightBottomIdx = State.SIZE.count - 1;
+
+  describe('leftTopIdx', () => {
+    const leftTopIdx = 0;
+    const secondRowFirst = leftTopIdx + State.SIZE.w;
+    const expected = { DOWN: secondRowFirst, UP: null, RIGHT: leftTopIdx + 1, LEFT: null };
+    expectNeightbors(leftTopIdx, expected);
   });
+  describe('rightTopIdx', () => {
+    const rightTopIdx = State.SIZE.w - 1;
+    const secondRowLast = rightTopIdx + State.SIZE.w;
+    const expected = { DOWN: secondRowLast, UP: null, RIGHT: null, LEFT: rightTopIdx - 1 };
+    expectNeightbors(rightTopIdx, expected);
+  });
+  describe('leftBottomIdx', () => {
+    const leftBottomIdx = rightBottomIdx - State.SIZE.w + 1;
+    const pRowFirst = leftBottomIdx - State.SIZE.w;
+    const expected = { DOWN: null, UP: pRowFirst, RIGHT: leftBottomIdx + 1, LEFT: null };
+    expectNeightbors(leftBottomIdx, expected);
+  });
+  describe('rightBottomIdx', () => {
+    const pRowLast = rightBottomIdx - State.SIZE.w;
+    const expected = { DOWN: null, UP: pRowLast, RIGHT: null, LEFT: rightBottomIdx - 1 };
+    expectNeightbors(rightBottomIdx, expected);
+  });
+
+  function expectNeightbors(idx, { DOWN, UP, RIGHT, LEFT }) {
+    it.each`
+      direction    | expected
+      ${ 'DOWN' }  | ${ DOWN }
+      ${ 'UP' }    | ${ UP }
+      ${ 'RIGHT' } | ${ RIGHT }
+      ${ 'LEFT' }  | ${ LEFT }
+    `('$direction => $expected', ({ direction, expected }) => {
+      const result = getters.neightborIdx(State)(idx, direction);
+      expect(result)
+        .toEqual(expected);
+    });
+  }
 });

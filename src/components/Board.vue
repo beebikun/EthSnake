@@ -1,5 +1,7 @@
 <template>
-  <div class="container" :style="style">
+  <div class="container"
+       :style="style"
+       >
     <BgTile v-for="tile in tiles"
             :key="tile.id"
             :tile="tile"
@@ -27,19 +29,18 @@ export default {
     BgTile,
     Snake,
   },
-  computed: mapState({
-    tokens: state => state.game.tokens,
-    tiles: state => state.game.tiles,
-    style: state => {
-      const { w, h, side } = state.game.SIZE;
-      return {
-        width: w * side + 'px',
-        height: h * side + 'px',
-      };
-    },
-  }),
-  created: function () {
-    // console.log(this);
+  computed: {
+    ...mapState({
+      tokens: state => state.game.tokens,
+      tiles: state => state.game.tiles,
+      style: state => {
+        const { w, h, side } = state.game.SIZE;
+        return {
+          width: w * side + 'px',
+          height: h * side + 'px',
+        };
+      },
+    })
   }
 };
 

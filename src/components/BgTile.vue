@@ -1,5 +1,6 @@
 <template>
   <div class="bg-tile" :style="tile.style">
+    {{ tile.idx }}
   </div>
 
 </template>

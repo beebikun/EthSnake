@@ -21,7 +21,7 @@ describe('SIZE', () => {
 
 it('CENTER', () => {
   expect(state.CENTER)
-    .toEqual(72);
+    .toEqual(expect.any(Number));
 });
 
 describe('getMatrixPos | matrixToIdx', () => {

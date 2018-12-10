@@ -1,10 +1,18 @@
 const SIZE = { w: 11, h: 11, side: 50 };
 SIZE.count = SIZE.w * SIZE.h;
 
+const STATES = {
+  RUN: 'RUN',
+  PAUSE: 'PAUSE',
+  END: 'END',
+  GAMEOVER: 'GAMEOVER',
+};
 
 export default {
   SIZE: Object.freeze(SIZE),
-  CENTER: matrixToIdx(Math.round(SIZE.w / 2), Math.round(SIZE.h / 2)),
+  CENTER: matrixToIdx(Math.floor(SIZE.w / 2), Math.floor(SIZE.h / 2)),
+  STATES,
+  STATE: STATES.RUN,
   tiles: Array(SIZE.count).fill().map(getTile),
 };
 

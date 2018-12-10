@@ -107,7 +107,7 @@ function getStore() {
         actions,
       },
       game: {
-        state: { SIZE, tiles, tokens: {} },
+        state: { SIZE, tiles, tokens: {}, STATE: 'RUN', STATES: { RUN: 'RUN' } },
       },
     },
   });

@@ -1,5 +1,6 @@
 <template>
-  <div class="snake-block" :style="tile.style">
+  <div class="snake-block" :style="tile.style" :class="{'head': isHead}">
+    {{ this.id }}
   </div>
 </template>
 
@@ -16,6 +17,9 @@ export default {
     ...mapState({
       tile: function (state) { return state.game.tiles[this.idx]; }
     }),
+    isHead: function () {
+      return this.id === 'snake:0';
+    }
   },
 };
 
@@ -24,7 +28,11 @@ export default {
 <style scoped>
   .snake-block {
     position: absolute;
-    background: yellow;
+    background: rgba(255, 255, 0, 0.6);
+  }
+  .head {
+    border: 2px solid red;
+    box-sizing: border-box;
   }
 
 </style>

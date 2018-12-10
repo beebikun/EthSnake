@@ -1,6 +1,7 @@
 module.exports = {
   "globals": {
-    "web3": true
+    "web3": true,
+    "requestAnimationFrame": true,
   },
   "root": true,
   "env": {

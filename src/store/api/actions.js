@@ -1,5 +1,9 @@
 export default {
-  setEth({ commit, dispatch }, eth) {
+  setEth({ commit, dispatch, state }, eth) {
+    if (state.eth) {
+      // do not set eth twice (prevent bugs for vue dev serve)
+      return;
+    }
     commit('setEth', eth);
     dispatch('fetchBlocks');
   },

@@ -18,17 +18,33 @@ it('add block', () => {
 });
 
 
-it('set eth', () => {
-  const eth = { hello: 'there' };
-  const commit = jest.fn();
-  const dispatch = jest.fn();
+describe('set eth', () => {
+  it('set when no eth was set', () => {
+    const eth = { hello: 'there' };
+    const commit = jest.fn();
+    const dispatch = jest.fn();
+    const state = {};
 
-  actions.setEth({ commit, dispatch }, eth);
+    actions.setEth({ commit, dispatch, state }, eth);
 
-  expect(commit)
-    .toHaveBeenCalledWith('setEth', eth);
-  expect(dispatch)
-    .toHaveBeenCalledWith('fetchBlocks');
+    expect(commit)
+      .toHaveBeenCalledWith('setEth', eth);
+    expect(dispatch)
+      .toHaveBeenCalledWith('fetchBlocks');
+  });
+  it('do not set twice', () => {
+    const eth = { hello: 'there' };
+    const commit = jest.fn();
+    const dispatch = jest.fn();
+    const state = { eth: 'something' };
+
+    actions.setEth({ commit, dispatch, state }, eth);
+
+    expect(commit)
+      .not.toHaveBeenCalled();
+    expect(dispatch)
+      .not.toHaveBeenCalled();
+  });
 });
 
 

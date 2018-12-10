@@ -11,9 +11,8 @@ const idx = '10';
 const TILE = Store.state.game.tiles[idx];
 
 
-function getWrapper() {
-  // Vue.set(Store.state.game.snake, 'blocks', BLOCKS);
-  const propsData = { id: 'snake_0', idx };
+function getWrapper(id='snake_0') {
+  const propsData = { id, idx };
   const wrapper = shallowMount(SnakeBlock, { propsData, localVue, store: Store });
   return wrapper;
 }
@@ -43,4 +42,19 @@ describe('tile style', () => {
     expect(style)
       .toMatch(new RegExp(`${ name }: ${ value };`));
   }
+});
+
+
+describe('head class', () => {
+  it.each`
+    id     | hasClass
+    ${ 0 } | ${ true }
+    ${ 1 } | ${ false }
+  `('$id => $hasClass', ({ id, hasClass }) => {
+    const wrapper = getWrapper('snake:' + id);
+    expect(wrapper.vm.isHead)
+      .toBe(hasClass);
+    expect(wrapper.classes('head'))
+      .toBe(hasClass);
+  });
 });
