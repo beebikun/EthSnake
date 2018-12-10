@@ -17,15 +17,21 @@ it.each`
 
 describe('togglePause', () => {
   it.each`
-  initial                 | dispatchName
-  ${ State.STATES.PAUSE } | ${ 'resume' }
-  ${ State.STATES.RUN }   | ${ 'pause' }
+  initial                    | dispatchName
+  ${ State.STATES.PAUSE }    | ${ 'resume' }
+  ${ State.STATES.RUN }      | ${ 'pause' }
+  ${ State.STATES.GAMEOVER } | ${ null }
   `('$initial => $dispatchName', ({ initial, dispatchName }) => {
     const dispatch = jest.fn();
     const state = {...State, STATE: initial};
     actions.togglePause({ dispatch, state });
 
-    expect(dispatch)
-      .toHaveBeenCalledWith(dispatchName);
+    if (dispatchName) {
+      expect(dispatch)
+        .toHaveBeenCalledWith(dispatchName);
+    } else {
+      expect(dispatch)
+        .not.toHaveBeenCalled();
+    }
   });
 });

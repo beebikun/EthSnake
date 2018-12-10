@@ -50,32 +50,48 @@ describe('set eth', () => {
 });
 
 
-it('fetch bocks', async () => {
-  // mock state
-  const p = Promise.resolve();
-  const eth = new Eth(p);
-  const state = { LOAD_BLOCKS_COUNT: 5, eth };
-  const dispatch = jest.fn();
+describe('fetch bocks', () => {
+  it('normal blocks', async () => {
+    const p = Promise.resolve();
+    const eth = new Eth(p);
+    const state = { LOAD_BLOCKS_COUNT: 5, eth };
+    const dispatch = jest.fn();
 
-  actions.fetchBlocks({ dispatch, state });
+    actions.fetchBlocks({ dispatch, state });
 
-  await p; // wait for fetch has been called
+    await p; // wait for fetch has been called
 
-  expect(eth.getBlockNumber)
-    .toHaveBeenCalledTimes(1);
-  expect(eth.getBlock.request)
-    .toHaveBeenCalledTimes(state.LOAD_BLOCKS_COUNT);
-  expect(eth.BatchRequestAdd)
-    .toHaveBeenCalledTimes(state.LOAD_BLOCKS_COUNT);
-  expect(eth.BatchRequestExecute)
-    .toHaveBeenCalledTimes(1);
+    expect(eth.getBlockNumber)
+      .toHaveBeenCalledTimes(1);
+    expect(eth.getBlock.request)
+      .toHaveBeenCalledTimes(state.LOAD_BLOCKS_COUNT);
+    expect(eth.BatchRequestAdd)
+      .toHaveBeenCalledTimes(state.LOAD_BLOCKS_COUNT);
+    expect(eth.BatchRequestExecute)
+      .toHaveBeenCalledTimes(1);
 
-  expect(dispatch)
-    .toHaveBeenCalledTimes(state.LOAD_BLOCKS_COUNT);
-  const expectedBlock = expect.objectContaining({
-    idx: expect.any(Number),
-    block: expect.any(Object),
+    expect(dispatch)
+      .toHaveBeenCalledTimes(state.LOAD_BLOCKS_COUNT);
+    const expectedBlock = expect.objectContaining({
+      idx: expect.any(Number),
+      block: expect.any(Object),
+    });
+    expect(dispatch)
+      .toHaveBeenCalledWith('addBlock', expectedBlock);
   });
-  expect(dispatch)
-    .toHaveBeenCalledWith('addBlock', expectedBlock);
+
+  it('empty block', async () => {
+    const p = Promise.resolve();
+    const eth = new Eth(p);
+    eth.buildBlock.mockReturnValueOnce(null);
+    const state = { LOAD_BLOCKS_COUNT: 1, eth };
+    const dispatch = jest.fn();
+
+    actions.fetchBlocks({ dispatch, state });
+
+    await p; // wait for fetch has been called
+
+    expect(dispatch)
+      .not.toHaveBeenCalled();
+  });
 });

@@ -9,6 +9,7 @@ export default {
   collectTokens({ dispatch, state }, idx) {
     if (state[idx]) {
       dispatch('deleteToken', idx);
+      dispatch('lvlupSnake');
     }
   },
 };

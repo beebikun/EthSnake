@@ -14,7 +14,7 @@ export default {
     commit('addBlock', block);
     commit('addStats', block);
 
-    // dispatch('addToken', block.idx.toString());
+    dispatch('addToken', block.idx.toString());
   },
 
   async fetchBlocks({ dispatch, state }) {
@@ -26,8 +26,9 @@ export default {
     for (let idx = 0; idx < LOAD_BLOCKS_COUNT; idx++) {
       const blockNumber = latest - idx;
       const getBlock = eth.getBlock.request(blockNumber, true, (_, block) => {
-        console.assert(block);
-        dispatch('addBlock', { block, idx });
+        if (block) {
+          dispatch('addBlock', { block, idx });
+        }
       });
       batch.add(getBlock);
     }

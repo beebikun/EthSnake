@@ -18,4 +18,9 @@ export default {
       state.direction = direction;
     }
   },
+
+  speedup(state) {
+    const newSpeed = state.SPEED - state.SPEED_STEP;
+    state.SPEED = Math.max(newSpeed, state.MIN_SPEED);
+  }
 };

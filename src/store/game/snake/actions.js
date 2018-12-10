@@ -15,7 +15,7 @@ export default {
     const currFirstBlockIdx = state.blocks[0].idx;
     const nextFirstBlockIdx = rootGetters.neightborIdx(currFirstBlockIdx, state.direction );
     const collision = nextFirstBlockIdx && state.blocks.find(isCollition);
-    console.log([ currFirstBlockIdx, nextFirstBlockIdx, state.direction, collision ])
+    console.log([ currFirstBlockIdx, nextFirstBlockIdx, state.direction, collision, state.SPEED ])
     if ( nextFirstBlockIdx === null || collision !== undefined ) {
       dispatch('gameover');
     } else {
@@ -72,5 +72,11 @@ export default {
          notPossibleChanges[newDirection] === oldDirection ) return;
 
     commit('setDirection', name);
+  },
+
+  lvlupSnake({ state, commit }) {
+    const blocks = state.blocks.concat({ id: 'snake:' + state.blocks.length });
+    commit('speedup');
+    commit('setSnake', blocks);
   }
 };

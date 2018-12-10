@@ -22,12 +22,15 @@ export default class Eth {
     }
   }
 
+  buildBlock = jest.fn((number) => ({
+      number,
+  }));
+
   getBlock = {
     request: jest.fn((number, _, cb) => {
+      const block = this.buildBlock(number);
       return () => {
-        cb(null, {
-          number,
-        });
+        cb(null, block);
       };
     }),
   }

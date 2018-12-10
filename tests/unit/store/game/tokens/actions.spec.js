@@ -45,7 +45,9 @@ describe('collectTokens', () => {
       actions.collectTokens({ dispatch, state }, idx);
       if (isCalled) {
         expect(dispatch)
-          .toHaveBeenCalledWith('deleteToken', idx);
+          .toHaveBeenNthCalledWith(1, 'deleteToken', idx);
+        expect(dispatch)
+          .toHaveBeenNthCalledWith(2, 'lvlupSnake');
       } else {
         expect(dispatch)
           .not.toHaveBeenCalled();

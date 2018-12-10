@@ -13,6 +13,20 @@ it('setSnake', () => {
     .toEqual(blocks);
 });
 
+describe('speedup', () => {
+  const STATE = { SPEED_STEP: 5, MIN_SPEED: 3 };
+  it.each`
+    current | expected
+    ${ 10 } | ${ 5 }
+    ${ 4 }  | ${ 3 }
+  `('$current => $expected', ({ current, expected }) => {
+    const state = { ...STATE, SPEED: current };
+    mutations.speedup(state);
+    expect(state.SPEED)
+      .toEqual(expected);
+  });
+});
+
 it('addFrameCount', () => {
   const state = { frameCount: 4 };
 

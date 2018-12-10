@@ -4,10 +4,6 @@
         <dd>
           {{ timestamp }}
         </dd>
-    <dt>Robo name:</dt>
-        <dd>
-          {{ decode(block.extraData) }}
-        </dd>
     <dt>Difficulty:</dt>
         <dd>
           <div class="stats" :style="barWidth('difficulty')"> </div>
@@ -50,9 +46,6 @@ export default {
     block: Object
   },
   methods: {
-    decode(value) {
-      return web3.toAscii(value);
-    },
     getStatsValue(name) {
       const value = name === 'transactions' ?
                       this.block.transactions.length :

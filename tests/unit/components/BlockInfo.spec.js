@@ -7,16 +7,12 @@ import BlockInfo from '@/components/BlockInfo.vue';
 const localVue = createLocalVue();
 localVue.use(Vuex);
 
-window.web3 = {
-  toAscii: jest.fn((value) => 'ascii:' + value),
-};
 
 const BLOCK = {
   id: 1,
   idx: '1',
   number: 1,
   timestamp: 1429287689,
-  extraData: 'extraData',
   difficulty: 10,
   totalDifficulty: 100,
   size: 30,
@@ -35,7 +31,6 @@ const blocksStats = {
 
 const elements = [
   [ 'Time:', '17/4 17:21:29' ],
-  [ 'Robo name:', 'ascii:' + BLOCK.extraData ],
   [ 'Difficulty:', BLOCK.difficulty, '0.0' ],
   [ 'Total Difficulty:', BLOCK.totalDifficulty, '47.4' ],
   [ 'Size:', BLOCK.size, '10.5' ],
@@ -51,8 +46,6 @@ const dts = wrapper.findAll('dt');
 const dds = wrapper.findAll('dd');
 
 it('render without crashing', () => {
-  expect(window.web3.toAscii)
-    .toHaveBeenCalledTimes(2);
   expect(wrapper.vm.blocksStats)
     .toEqual(blocksStats);
   expect(dts).toHaveLength(elements.length);
