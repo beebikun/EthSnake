@@ -71,7 +71,7 @@ export default {
   }
 
   #gameBoard {
-    border: 2px solid;
+    border: 2px solid yellow;
     position: relative;
   }
 </style>

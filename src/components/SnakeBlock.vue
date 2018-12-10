@@ -1,6 +1,6 @@
 <template>
   <div class="snake-block" :style="tile.style" :class="{'head': isHead}">
-    {{ this.id }}
+    <!-- {{ this.id }} -->
   </div>
 </template>
 
@@ -28,11 +28,13 @@ export default {
 <style scoped>
   .snake-block {
     position: absolute;
-    background: rgba(255, 255, 0, 0.6);
+    background: rgba(94, 131, 222, 0.8);
+    border: 3px solid #0043ff;
+    box-sizing: border-box;
   }
   .head {
-    border: 2px solid red;
-    box-sizing: border-box;
+    background: rgba(20, 22, 173, 0.8);
+    border: 3px solid #0043ff;
   }
 
 </style>
