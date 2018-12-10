@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import { mapGetters, mapState } from 'vuex';
+import { mapGetters } from 'vuex';
 import Robot from './Robot.vue';
 import BlockInfo from './BlockInfo.vue';
 

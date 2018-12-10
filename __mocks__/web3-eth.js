@@ -23,7 +23,7 @@ export default class Eth {
   }
 
   getBlock = {
-    request: jest.fn((number, cb) => {
+    request: jest.fn((number, _, cb) => {
       return () => {
         cb(null, {
           number,

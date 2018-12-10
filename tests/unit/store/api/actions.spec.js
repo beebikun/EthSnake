@@ -12,7 +12,9 @@ it('add block', () => {
 
   const expectedBlock = { ...block, idx, id: 'block_' + idx };
   expect(commit)
-    .toHaveBeenCalledWith('addBlock', expectedBlock);
+    .toHaveBeenNthCalledWith(1, 'addBlock', expectedBlock);
+  expect(commit)
+    .toHaveBeenNthCalledWith(2, 'addStats', expectedBlock);
   expect(dispatch)
     .toHaveBeenCalledWith('addToken', idx);
 });
