@@ -7,7 +7,7 @@ const DIRECTIONS = {
 
 export default {
   INIT_SIZE: 2,
-  SPEED: 100,
+  SPEED: 50,
   DIRECTIONS,
   direction: DIRECTIONS.UP,
   blocks: [],
