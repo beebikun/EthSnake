@@ -19,6 +19,8 @@ export default {
     if ( nextFirstBlockIdx === null || collision !== undefined ) {
       dispatch('gameover');
     } else {
+      dispatch('collectTokens', nextFirstBlockIdx);
+
       const nextPositions = state.blocks.map((block, i) => {
         const prev = state.blocks[i - 1];
         const curr = state.blocks[i];
@@ -30,7 +32,7 @@ export default {
     }
 
     function isCollition({ idx }) {
-      return idx === nextFirstBlockIdx.toString();
+      return idx === nextFirstBlockIdx;
     }
   },
 
@@ -44,8 +46,6 @@ export default {
       blocks.push({ idx: idx.toString(), id });
     }
 
-    console.log('INIT', blocks.map((idx) => idx))
-
     commit('setSnake', blocks);
     dispatch('drawSnake');
   },
@@ -53,7 +53,9 @@ export default {
   setDirection({ commit, state, rootState }, name) {
     const { game } = rootState;
     // allow to change direction only during the active state
-    if (game.STATE !== game.STATES.RUN) return;
+    if (game.STATE !== game.STATES.RUN) {
+      return;
+    }
 
     const newDirection = state.DIRECTIONS[name];
     if (!newDirection) return;

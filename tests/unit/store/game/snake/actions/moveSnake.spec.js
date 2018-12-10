@@ -94,9 +94,11 @@ describe('moveSnake', () => {
         expect(dispatch)
           .toHaveBeenCalledWith('gameover');
       } else {
-        expect(dispatch).not.toHaveBeenCalled();
+        const nextBlocks = idx2blocks(expected);
+        expect(dispatch).
+          toHaveBeenCalledWith('collectTokens', nextBlocks[0].idx);
         expect(commit)
-          .toHaveBeenCalledWith('setSnake', idx2blocks(expected));
+          .toHaveBeenCalledWith('setSnake', nextBlocks);
       }
 
       function idx2blocks(idxs) {

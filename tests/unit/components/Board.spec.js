@@ -63,10 +63,13 @@ it('render snake', () => {
     .toBe(true);
 });
 
-describe('board size', () => {
+describe('game board', () => {
   const store = getStore();
   const wrapper = shallowMount(Board, { localVue, store });
-  const style = wrapper.attributes('style');
+  const board = wrapper.find('#gameBoard');
+  expect(board.exists())
+    .toBe(true);
+  const style = board.attributes('style');
 
   it.each`
     name         | value
@@ -112,4 +115,12 @@ function getStore() {
     },
   });
 }
+
+it('CollectedBlocks', () => {
+  const store = getStore();
+  const wrapper = shallowMount(Board, { localVue, store });
+  const CollectedBlocks = wrapper.find({ name: 'CollectedBlocks' });
+  expect(CollectedBlocks.exists())
+    .toBe(true);
+});
 

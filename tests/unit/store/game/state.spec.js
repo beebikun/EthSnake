@@ -20,7 +20,8 @@ describe('SIZE', () => {
 });
 
 it('CENTER', () => {
-  expect(state.CENTER)
+  const center = parseInt(state.CENTER);
+  expect(center)
     .toEqual(expect.any(Number));
 });
 
@@ -39,7 +40,7 @@ describe('getMatrixPos | matrixToIdx', () => {
       .toEqual({ x, y });
     const result = matrixToIdx(x, y);
     expect(result)
-      .toEqual(idx);
+      .toEqual(idx.toString());
   });
 });
 

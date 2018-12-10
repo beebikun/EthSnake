@@ -6,4 +6,9 @@ export default {
   deleteToken({ commit }, idx) {
     commit('deleteToken', idx);
   },
+  collectTokens({ dispatch, state }, idx) {
+    if (state[idx]) {
+      dispatch('deleteToken', idx);
+    }
+  },
 };

@@ -3,7 +3,7 @@ import State from '@/store/game/state';
 
 const N = State.SIZE.count * 3;
 
-it('useTile', () => {
+it('getFree', () => {
   const tokensStep = 5;
   const tokens = getUsedIdxs(tokensStep)
     .reduce((bucket, idx) => {
@@ -12,14 +12,11 @@ it('useTile', () => {
     }, {});
   const snakeStep = 10;
   const snake = getUsedIdxs(snakeStep);
-  const rootState = {
-    tokens,
-    snake: { blocks: snake.map((idx) => ({ idx })) },
-  };
   // use Set for testing random
+  const state = { ...State, tokens, snake: { blocks: snake.map((idx) => ({ idx })) } };
   const idxs = new Set();
   for (let i = 0; i < N; i++) {
-    const idx = getters.getFree(State, null, { game: rootState });
+    const idx = getters.getFree(state);
     expect(typeof idx)
       .toBe('string');
     expect(tokens[idx])
@@ -38,6 +35,24 @@ it('useTile', () => {
       .map((_, i) => i % step === 0 ? i.toString() : undefined)
       .filter(i => i !== undefined);
   }
+});
+
+
+it('getCollected', () => {
+  const rootState = {
+    api: {
+      blocks: [ { idx: '1'}, { idx: '2'}, { idx: '3' } ],
+    },
+  };
+  const state = {
+    tokens: {
+      '1': '2'
+    },
+  };
+
+  const result = getters.getCollected(state, null, rootState);
+  expect(result)
+    .toEqual([ { idx: '1'}, { idx: '3' } ]);
 });
 
 
@@ -78,7 +93,7 @@ describe('neightborIdx', () => {
     `('$direction => $expected', ({ direction, expected }) => {
       const result = getters.neightborIdx(State)(idx, direction);
       expect(result)
-        .toEqual(expected);
+        .toEqual(expected ? expected.toString() : expected);
     });
   }
 });

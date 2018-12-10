@@ -1,4 +1,4 @@
-const SIZE = { w: 11, h: 11, side: 50 };
+const SIZE = { w: 11, h: 11, side: 44 };
 SIZE.count = SIZE.w * SIZE.h;
 
 const STATES = {
@@ -21,7 +21,7 @@ export function getMatrixPos(idx) {
 }
 
 export function matrixToIdx(x, y) {
-  return y * SIZE.w + x
+  return (y * SIZE.w + x).toString();
 }
 
 function getTile(_, idx) {

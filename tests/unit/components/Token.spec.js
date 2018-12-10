@@ -50,15 +50,13 @@ describe('pending state', () => {
   });
 });
 
-it('bg', () => {
-  const avatar = `url\\(https://robohash.org/${ BLOCK.miner }\\)`;
+it('Robot', () => {
   const wrapper = getWrapper();
-  const bg = wrapper.find('.bg');
-  expect(bg.exists())
+  const robot = wrapper.find({ name: 'Robot' });
+  expect(robot.exists())
     .toBe(true);
-
-  expect(bg.attributes('style'))
-      .toMatch(new RegExp(`background-image: ${ avatar };`));
+  expect(robot.props())
+    .toEqual({ blockIdx });
 });
 
 describe('block style', () => {
@@ -77,28 +75,4 @@ describe('block style', () => {
     expect(style)
       .toMatch(new RegExp(`${ name }: ${ value };`));
   }
-});
-
-
-it('idx element', () => {
-  const wrapper = getWrapper();
-  const idxElement = wrapper.find('.idx');
-  expect()
-  expect(idxElement.text())
-    .toEqual(blockIdx);
-});
-
-it('gas used element', () => {
-  const block = { ...BLOCK, gasLimit: 50, gasUsed: 25 };
-  const expected = '50.0%';
-  const wrapper = getWrapper(block);
-  expect(wrapper.vm.usedHeight)
-    .toEqual({
-      height: expected,
-    });
-  const gasElement = wrapper.find('.gasUsed');
-  expect(gasElement.exists())
-    .toBe(true);
-  expect(gasElement.attributes('style'))
-    .toEqual(`height: ${ expected };`);
 });

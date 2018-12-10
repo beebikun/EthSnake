@@ -2,16 +2,21 @@
 import { getMatrixPos, matrixToIdx } from './state';
 
 export default {
-  getFree(state, getters, rootState) {
-    const snake = rootState.game.snake.blocks.reduce((bucket, { idx }) => {
+  getFree(state) {
+    const snake = state.snake.blocks.reduce((bucket, { idx }) => {
       bucket[idx] = true;
       return bucket;
     }, {});
-    const tokens = rootState.game.tokens;
+    const tokens = state.tokens;
     const free = state.tiles
       .filter(({ idx }) => tokens[idx] === undefined && snake[idx] === undefined);
     const n = getRandom(free.length);
     return free[n].idx;
+  },
+  getCollected(state, getters, rootState) {
+    const blocks = rootState.api.blocks;
+    const blocksOnBoard = Object.values(state.tokens);
+    return blocks.filter(({ idx }) => blocksOnBoard.includes(idx.toString()) === false);
   },
   neightborIdx(state) {
     return (idx, direction) => {
