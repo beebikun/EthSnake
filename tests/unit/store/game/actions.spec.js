@@ -21,6 +21,7 @@ describe('switchGameState', () => {
   ${ State.STATES.PAUSE }    | ${ 'resume' }
   ${ State.STATES.RUN }      | ${ 'pause' }
   ${ State.STATES.GAMEOVER } | ${ 'rerun' }
+  ${ State.STATES.WIN }      | ${ 'rerun' }
   ${ 'unknown' }             | ${ null }
   `('$initial => $dispatchName', ({ initial, dispatchName }) => {
     const dispatch = jest.fn();
@@ -73,4 +74,12 @@ it('rerun', () => {
     .toHaveBeenNthCalledWith(1, 'createSnake');
   expect(dispatch)
     .toHaveBeenNthCalledWith(2, 'fetchBlocks');
+});
+
+
+it('win', () => {
+  const commit = jest.fn();
+  actions.win({ commit, state: State });
+  expect(commit)
+    .toHaveBeenCalledWith('changeGameState', State.STATES.WIN);
 });

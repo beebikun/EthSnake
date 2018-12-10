@@ -4,7 +4,7 @@ SIZE.count = SIZE.w * SIZE.h;
 const STATES = {
   RUN: 'RUN',
   PAUSE: 'PAUSE',
-  END: 'END',
+  WIN: 'WIN',
   GAMEOVER: 'GAMEOVER',
 };
 

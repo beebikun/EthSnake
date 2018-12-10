@@ -34,20 +34,33 @@ describe('collectTokens', () => {
   const blockIdx = 'blockIdx';
   const state = {
     [ existIdx ] : blockIdx,
-  }
+    [ existIdx + 10 ] : blockIdx + 10,
+  };
+  const dispatch = jest.fn((name, idx) => {
+    if (name === 'deleteToken') {
+      delete state[idx];
+    }
+  });
 
   it.each`
-    idx               | isCalled
-    ${ existIdx }     | ${ true }
-    ${ existIdx + 1 } | ${ false }
-  `('$idx => $isCalled', ({ idx, isCalled }) => {
-      const dispatch = jest.fn();
+    idx                | isCalled   | isEmpty
+    ${ existIdx }      | ${ true }  | ${ false }
+    ${ existIdx + 1 }  | ${ false } | ${ false }
+    ${ existIdx + 10 } | ${ true }  | ${ true }
+  `('$idx => $isCalled ( game is win: $isEmpty )', ({ idx, isCalled, isEmpty }) => {
+      dispatch.mockClear();
+
       actions.collectTokens({ dispatch, state }, idx);
       if (isCalled) {
         expect(dispatch)
           .toHaveBeenNthCalledWith(1, 'deleteToken', idx);
         expect(dispatch)
           .toHaveBeenNthCalledWith(2, 'lvlupSnake');
+
+        if (isEmpty) {
+          expect(dispatch)
+            .toHaveBeenNthCalledWith(3, 'win');
+        }
       } else {
         expect(dispatch)
           .not.toHaveBeenCalled();

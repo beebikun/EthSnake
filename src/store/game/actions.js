@@ -10,6 +10,10 @@ export default {
     dispatch('createSnake');
     dispatch('fetchBlocks');
   },
+  win({ commit, state }) {
+    console.log('win')
+    commit('changeGameState', state.STATES.WIN);
+  },
   gameover({ commit, state }) {
     console.log('GAMEOVER');
     commit('changeGameState', state.STATES.GAMEOVER);
@@ -31,6 +35,9 @@ export default {
         dispatch('resume');
         break;
       case state.STATES.GAMEOVER:
+        dispatch('rerun');
+        break;
+      case state.STATES.WIN:
         dispatch('rerun');
         break;
     }

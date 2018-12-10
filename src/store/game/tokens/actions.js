@@ -11,5 +11,8 @@ export default {
       dispatch('deleteToken', idx);
       dispatch('lvlupSnake');
     }
+    if (Object.keys(state).length === 0) {
+      dispatch('win');
+    }
   },
 };
