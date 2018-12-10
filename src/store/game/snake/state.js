@@ -5,13 +5,19 @@ const DIRECTIONS = {
   LEFT: 'LEFT',
 };
 
+const INIT_SPEED = 50;
+
 export default {
   INIT_SIZE: 2,
-  SPEED: 50,
+  INIT_SPEED,
+  INIT_DIRECTION: DIRECTIONS.UP,
+
   SPEED_STEP: 3,
   MIN_SPEED: 20,
   DIRECTIONS,
-  direction: DIRECTIONS.UP,
+
+  speed: null,
+  direction: null,
   blocks: [],
   frameCount: 0,
 };

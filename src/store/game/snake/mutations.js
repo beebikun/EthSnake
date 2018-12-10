@@ -20,7 +20,10 @@ export default {
   },
 
   speedup(state) {
-    const newSpeed = state.SPEED - state.SPEED_STEP;
-    state.SPEED = Math.max(newSpeed, state.MIN_SPEED);
+    const newSpeed = state.speed - state.SPEED_STEP;
+    state.speed = Math.max(newSpeed, state.MIN_SPEED);
+  },
+  resetSpeed(state) {
+    state.speed = state.INIT_SPEED;
   }
 };

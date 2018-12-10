@@ -4,6 +4,9 @@ export default {
   addBlock (state, block) {
     state.blocks.push(block);
   },
+  clearBlocks(state) {
+    Vue.set(state, 'blocks', []);
+  },
   addStats (state, block) {
     state.STATS_KEYS.forEach((name) => {
       const value = block[name];

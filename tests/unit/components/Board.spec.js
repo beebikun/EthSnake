@@ -63,6 +63,15 @@ it('render snake', () => {
     .toBe(true);
 });
 
+it('game info', () => {
+  const store = getStore();
+  const wrapper = shallowMount(Board, { localVue, store });
+
+  const element = wrapper.find({ name: 'GameInfo' });
+  expect(element.exists())
+    .toBe(true);
+});
+
 describe('game board', () => {
   const store = getStore();
   const wrapper = shallowMount(Board, { localVue, store });

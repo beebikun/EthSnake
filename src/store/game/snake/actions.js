@@ -3,7 +3,7 @@ export default {
     const gameIsRun = rootState.game.STATE === rootState.game.STATES.RUN;
     if (gameIsRun) {
       commit('addFrameCount');
-      if (state.frameCount >= state.SPEED) {
+      if (state.frameCount >= state.speed) {
         commit('flushFrameCount');
         dispatch('moveSnake');
       }
@@ -15,7 +15,8 @@ export default {
     const currFirstBlockIdx = state.blocks[0].idx;
     const nextFirstBlockIdx = rootGetters.neightborIdx(currFirstBlockIdx, state.direction );
     const collision = nextFirstBlockIdx && state.blocks.find(isCollition);
-    console.log([ currFirstBlockIdx, nextFirstBlockIdx, state.direction, collision, state.SPEED ])
+    console.log(state.blocks.map(({idx}) => idx));
+    console.log([ currFirstBlockIdx, nextFirstBlockIdx, state.direction, collision && collision.idx, state.speed ])
     if ( nextFirstBlockIdx === null || collision !== undefined ) {
       dispatch('gameover');
     } else {
@@ -36,7 +37,16 @@ export default {
     }
   },
 
-  initSnake({ commit, dispatch, rootState, state, rootGetters }) {
+  initSnake({ dispatch }) {
+    dispatch('createSnake');
+    dispatch('drawSnake');
+  },
+
+  createSnake({ dispatch, commit, state, rootState, rootGetters }) {
+    dispatch('pause');
+    commit('resetSpeed');
+    commit('setDirection', state.INIT_DIRECTION);
+
     const startIdx = rootState.game.CENTER;
     const blocks = [];
     for (let i = 0; i < state.INIT_SIZE; i++) {
@@ -47,7 +57,6 @@ export default {
     }
 
     commit('setSnake', blocks);
-    dispatch('drawSnake');
   },
 
   setDirection({ commit, state, rootState }, name) {

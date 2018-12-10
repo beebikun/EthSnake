@@ -12,7 +12,7 @@ export default {
   SIZE: Object.freeze(SIZE),
   CENTER: matrixToIdx(Math.floor(SIZE.w / 2), Math.floor(SIZE.h / 2)),
   STATES,
-  STATE: STATES.RUN,
+  STATE: null,
   tiles: Array(SIZE.count).fill().map(getTile),
 };
 

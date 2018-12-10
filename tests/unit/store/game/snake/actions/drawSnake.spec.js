@@ -9,7 +9,7 @@ describe('Check game state', () => {
     window.requestAnimationFrame = jest.fn();
     const rootState = { game: { STATE: gameState, STATES: { RUN: 'RUN' } } };
     const commit = jest.fn();
-    const state = { frameCount: 0, SPEED: 10 };
+    const state = { frameCount: 0, speed: 10 };
     actions.drawSnake({ commit, rootState, state });
 
     if (isRun) {
@@ -25,8 +25,8 @@ describe('Check game state', () => {
 });
 
 describe('drawSnake', () => {
-  const SPEED = 10;
-  const state = { blocks: [], frameCount: 0, SPEED };
+  const speed = 10;
+  const state = { blocks: [], frameCount: 0, speed };
   const commit = jest.fn((name) => {
     if (name === 'addFrameCount') {
       state.frameCount += 1;
@@ -82,13 +82,13 @@ describe('drawSnake', () => {
         expect(state.frameCount)
           .toEqual(0);
         expect(window.requestAnimationFrame)
-          .toHaveBeenCalledTimes(SPEED - 1);
+          .toHaveBeenCalledTimes(speed - 1);
         expect(dispatch)
-          .toHaveBeenCalledTimes(SPEED);
+          .toHaveBeenCalledTimes(speed);
         expect(dispatch.mock.calls)
-          .toEqual(Array(SPEED - 1).fill(['drawSnake']).concat([['moveSnake']]));
+          .toEqual(Array(speed - 1).fill(['drawSnake']).concat([['moveSnake']]));
         expect(commit.mock.calls)
-          .toEqual(Array(SPEED).fill(['addFrameCount']).concat([['flushFrameCount']]));
+          .toEqual(Array(speed).fill(['addFrameCount']).concat([['flushFrameCount']]));
 
         window.requestAnimationFrame = Function.prototype;
         done();

@@ -15,16 +15,17 @@ it.each`
     .toHaveBeenCalledWith('changeGameState', gameState);
 });
 
-describe('togglePause', () => {
+describe('switchGameState', () => {
   it.each`
   initial                    | dispatchName
   ${ State.STATES.PAUSE }    | ${ 'resume' }
   ${ State.STATES.RUN }      | ${ 'pause' }
-  ${ State.STATES.GAMEOVER } | ${ null }
+  ${ State.STATES.GAMEOVER } | ${ 'rerun' }
+  ${ 'unknown' }             | ${ null }
   `('$initial => $dispatchName', ({ initial, dispatchName }) => {
     const dispatch = jest.fn();
     const state = {...State, STATE: initial};
-    actions.togglePause({ dispatch, state });
+    actions.switchGameState({ dispatch, state });
 
     if (dispatchName) {
       expect(dispatch)
@@ -34,4 +35,42 @@ describe('togglePause', () => {
         .not.toHaveBeenCalled();
     }
   });
+});
+
+describe('run', () => {
+  it('game wasnt started yet', () => {
+    const dispatch = jest.fn();
+    const state = { STATE: null };
+    const Eth = {};
+
+    actions.run({ dispatch, state }, Eth);
+
+    expect(dispatch)
+      .toHaveBeenNthCalledWith(1, 'initSnake');
+    expect(dispatch)
+      .toHaveBeenNthCalledWith(2, 'setEth', Eth);
+  });
+
+  it('game already started', () => {
+    const dispatch = jest.fn();
+    const commit = jest.fn();
+    const state = { STATE: 'not null' };
+
+    actions.run({ dispatch, state, commit });
+
+    expect(dispatch)
+      .not.toHaveBeenCalled();
+    expect(commit)
+      .not.toHaveBeenCalled();
+  });
+});
+
+it('rerun', () => {
+  const dispatch = jest.fn();
+  actions.rerun({ dispatch });
+
+  expect(dispatch)
+    .toHaveBeenNthCalledWith(1, 'createSnake');
+  expect(dispatch)
+    .toHaveBeenNthCalledWith(2, 'fetchBlocks');
 });

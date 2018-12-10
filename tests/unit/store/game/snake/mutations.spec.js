@@ -20,11 +20,18 @@ describe('speedup', () => {
     ${ 10 } | ${ 5 }
     ${ 4 }  | ${ 3 }
   `('$current => $expected', ({ current, expected }) => {
-    const state = { ...STATE, SPEED: current };
+    const state = { ...STATE, speed: current };
     mutations.speedup(state);
-    expect(state.SPEED)
+    expect(state.speed)
       .toEqual(expected);
   });
+});
+
+it('resetSpeed', () => {
+  const state = { INIT_SPEED: 5, speed: 3 };
+  mutations.resetSpeed(state);
+  expect(state.speed)
+    .toEqual(state.INIT_SPEED);
 });
 
 it('addFrameCount', () => {

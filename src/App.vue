@@ -5,7 +5,7 @@
        @keyup.down="setDirection('DOWN')"
        @keyup.right="setDirection('RIGHT')"
        @keyup.left="setDirection('LEFT')"
-       @keyup.space="togglePause()"
+       @keyup.space="switchGameState()"
        >
     <Board v-if="isValid" />
     <div id="validation-error" v-else >
@@ -29,15 +29,14 @@ export default {
     if (typeof web3 !== 'undefined') {
       const eth = new Eth(web3.currentProvider);
       this.isValid = true;
-      this.$store.dispatch('initSnake');
-      this.$store.dispatch('setEth', eth);
+      this.$store.dispatch('run', eth);
     }
   },
   mounted: function () {
     this.$el.focus();
   },
   methods: {
-    ...mapActions(['setDirection', 'togglePause']),
+    ...mapActions(['setDirection', 'switchGameState']),
   },
 };
 

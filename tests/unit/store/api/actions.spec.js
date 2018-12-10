@@ -52,14 +52,12 @@ describe('set eth', () => {
 
 describe('fetch bocks', () => {
   it('normal blocks', async () => {
-    const p = Promise.resolve();
-    const eth = new Eth(p);
+    const eth = new Eth();
     const state = { LOAD_BLOCKS_COUNT: 5, eth };
     const dispatch = jest.fn();
+    const commit = jest.fn();
 
-    actions.fetchBlocks({ dispatch, state });
-
-    await p; // wait for fetch has been called
+    await actions.fetchBlocks({ commit, dispatch, state });
 
     expect(eth.getBlockNumber)
       .toHaveBeenCalledTimes(1);
@@ -70,28 +68,36 @@ describe('fetch bocks', () => {
     expect(eth.BatchRequestExecute)
       .toHaveBeenCalledTimes(1);
 
+    expect(commit)
+      .toHaveBeenCalledWith('clearBlocks');
+
     expect(dispatch)
-      .toHaveBeenCalledTimes(state.LOAD_BLOCKS_COUNT);
+      .toHaveBeenCalledTimes(state.LOAD_BLOCKS_COUNT + 1);
     const expectedBlock = expect.objectContaining({
       idx: expect.any(Number),
       block: expect.any(Object),
     });
     expect(dispatch)
       .toHaveBeenCalledWith('addBlock', expectedBlock);
+    expect(dispatch)
+      .toHaveBeenLastCalledWith('resume');
   });
 
   it('empty block', async () => {
-    const p = Promise.resolve();
-    const eth = new Eth(p);
+    const eth = new Eth();
     eth.buildBlock.mockReturnValueOnce(null);
     const state = { LOAD_BLOCKS_COUNT: 1, eth };
     const dispatch = jest.fn();
+    const commit = jest.fn();
 
-    actions.fetchBlocks({ dispatch, state });
+    await actions.fetchBlocks({ commit, dispatch, state });
 
-    await p; // wait for fetch has been called
+    expect(commit)
+      .toHaveBeenCalledWith('clearBlocks');
 
     expect(dispatch)
-      .not.toHaveBeenCalled();
+      .toHaveBeenCalledTimes(1);
+    expect(dispatch)
+      .toHaveBeenLastCalledWith('resume');
   });
 });

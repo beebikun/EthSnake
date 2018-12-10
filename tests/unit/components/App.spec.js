@@ -29,14 +29,14 @@ describe('keybindings', () => {
       .toHaveBeenCalled();
     expect(wrapper.vm.setDirection)
       .toBeInstanceOf(Function);
-    expect(wrapper.vm.togglePause)
+    expect(wrapper.vm.switchGameState)
       .toBeInstanceOf(Function);
   });
 
-  it('togglePause', () => {
+  it('switchGameState', () => {
     wrapper.trigger('keyup.space');
     expect(mockedDispatch)
-      .toHaveBeenLastCalledWith('togglePause');
+      .toHaveBeenLastCalledWith('switchGameState');
   });
 
   describe('movement', () => {
@@ -80,12 +80,10 @@ it('renders normal case', () => {
   expect(wApp.exists())
     .toBe(true);
 
-  expect(mockedDispatch)
-    .toHaveBeenNthCalledWith(1, 'initSnake');
-
   const eth = expect.any(Eth);
   expect(mockedDispatch)
-    .toHaveBeenNthCalledWith(2, 'setEth', eth);
+    .toHaveBeenCalledWith('run', eth);
+
   expect(Store.state.api.eth)
     .toEqual(eth);
 

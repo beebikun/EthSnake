@@ -1,20 +1,24 @@
 <template>
   <div id="container"
        >
-    <div id="gameBoard" :style="style">
-      <BgTile v-for="tile in tiles"
-              :key="tile.id"
-              :tile="tile"
-              />
-      <Token v-for="(blockIdx, idx) in tokens"
-             :key="idx"
-             :idx="idx"
-             :block-idx="blockIdx"
-             />
-      <Snake />
+    <div id="container-top">
+      <div id="gameBoard" :style="style">
+        <BgTile v-for="tile in tiles"
+                :key="tile.id"
+                :tile="tile"
+                />
+        <Token v-for="(blockIdx, idx) in tokens"
+               :key="idx"
+               :idx="idx"
+               :block-idx="blockIdx"
+               />
+        <Snake />
+      </div>
+
+      <CollectedBlocks />
     </div>
 
-    <CollectedBlocks />
+    <GameInfo />
 
   </div>
 </template>
@@ -26,6 +30,7 @@ import Token from './Token.vue';
 import BgTile from './BgTile.vue';
 import Snake from './Snake.vue';
 import CollectedBlocks from './CollectedBlocks.vue';
+import GameInfo from './GameInfo.vue';
 
 export default {
   name: 'Board',
@@ -34,6 +39,7 @@ export default {
     BgTile,
     Snake,
     CollectedBlocks,
+    GameInfo,
   },
   computed: {
     ...mapState({
@@ -57,7 +63,6 @@ export default {
   #container {
     padding: 10px;
     padding-left: 20px;
-    display: flex;
 
     background: black;
     color: lawngreen;
@@ -68,6 +73,11 @@ export default {
     top: 0;
     bottom: 0;
     overflow: hidden;
+  }
+
+  #container-top {
+    display: flex;
+    width: 100%;
   }
 
   #gameBoard {

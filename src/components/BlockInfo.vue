@@ -83,6 +83,7 @@ export default {
     padding-bottom: 7px;
     margin-left: 7px;
     width: 100%;
+    max-width: 200px;
   }
 
   dd {

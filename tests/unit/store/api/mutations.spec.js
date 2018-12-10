@@ -12,6 +12,14 @@ it('set eth', () => {
     .toEqual(eth);
 });
 
+it('clear blocks', () => {
+  const state = { blocks: [ 1, 2 ] };
+  mutations.clearBlocks(state);
+  // assert result
+  expect(state.blocks)
+    .toEqual([]);
+});
+
 
 it('add block', () => {
   // mock state

@@ -5,6 +5,7 @@ export default {
       return;
     }
     commit('setEth', eth);
+
     dispatch('fetchBlocks');
   },
 
@@ -17,7 +18,9 @@ export default {
     dispatch('addToken', block.idx.toString());
   },
 
-  async fetchBlocks({ dispatch, state }) {
+  async fetchBlocks({ commit, dispatch, state }) {
+    commit('clearBlocks');
+
     const { eth, LOAD_BLOCKS_COUNT } = state;
 
     const latest = await eth.getBlockNumber();
@@ -33,6 +36,7 @@ export default {
       batch.add(getBlock);
     }
 
-    batch.execute();
+    await batch.execute();
+    dispatch('resume');
   }
 };
