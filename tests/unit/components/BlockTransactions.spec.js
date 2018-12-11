@@ -7,7 +7,7 @@ import BlockTransactions from '@/components/BlockTransactions.vue';
 const localVue = createLocalVue();
 localVue.use(Vuex);
 
-const blocksIdx = 0;
+const blockIdx = 0;
 const TRANSACTION = {
   hash: 0,
   transactionIndex: 0,
@@ -35,7 +35,7 @@ const elements = [
 
 Vue.set(Store.state.api, 'transStats', transStats);
 Vue.set(Store.state.api, 'blocks', [ BLOCK ]);
-Vue.set(Store.state.api, 'showTransactionsIdx', blocksIdx);
+Vue.set(Store.state.api, 'showTransactionsIdx', blockIdx);
 
 
 describe('render without crashing', () => {
@@ -91,21 +91,15 @@ describe('render without crashing', () => {
       });
     });
   });
-
-
 });
 
 
 it('hideTransactions', () => {
-  const mockedDispatch = jest.spyOn(Store, 'dispatch');
   const wrapper = shallowMount(BlockTransactions, { localVue, store: Store });
-  const hideTransactions = wrapper.find('.toggleShowTransactions');
+  const hideTransactions = wrapper.find({ name: 'ToggleShowTransactionsButton' });
 
-  expect(wrapper.vm.showTransactions)
-    .toBeInstanceOf(Function);
-
-  hideTransactions.trigger('click');
-
-  expect(mockedDispatch)
-    .toHaveBeenCalledWith('showTransactions', null);
+  expect(hideTransactions.exists())
+    .toBe(true);
+  expect(hideTransactions.props('blockIdx'))
+    .toBeFalsy();
 });

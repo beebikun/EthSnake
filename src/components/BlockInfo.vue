@@ -29,10 +29,10 @@
           <div class="stats" :style="barWidth('gasUsed')"> </div>
           <span class="info">{{ block.gasUsed }}</span>
         </dd>
-    <dt>Transactions: <span @click="showTransactions(block.idx)"
-                            class="toggleShowTransactions">SHOW
-                     </span>
-                   </dt>
+    <dt>
+      Transactions:
+      <ToggleShowTransactionsButton :block-idx="block.idx" />
+    </dt>
         <dd>
           <div class="stats" :style="barWidth('transactions')"> </div>
           <span class="info">{{ block.transactions.length }}</span>
@@ -41,12 +41,16 @@
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex';
+import { mapState } from 'vuex';
+import ToggleShowTransactionsButton from './ToggleShowTransactionsButton.vue';
 
 export default {
   name: 'BlockInfo',
   props: {
     block: Object
+  },
+  components: {
+    ToggleShowTransactionsButton
   },
   methods: {
     getStatsValue(name) {
@@ -63,7 +67,6 @@ export default {
         width: this.getStatsValue(name) + '%',
       }
     },
-    ...mapActions(['showTransactions']),
   },
   computed: {
     ...mapState({

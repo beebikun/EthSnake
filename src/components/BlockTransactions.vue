@@ -2,10 +2,7 @@
   <div id="transactions"
        >
 
-    <div>
-      <span @click="showTransactions(null)"
-            class="toggleShowTransactions">CLOSE</span>
-    </div>
+    <ToggleShowTransactionsButton />
 
     <h2> {{ block.number }} </h2>
 
@@ -37,13 +34,16 @@
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex';
+import { mapState } from 'vuex';
+import ToggleShowTransactionsButton from './ToggleShowTransactionsButton.vue';
 
 
 export default {
   name: 'BlockTransactions',
+  components: {
+    ToggleShowTransactionsButton,
+  },
   methods: {
-    ...mapActions(['showTransactions']),
     getStatsValue(transaction, name) {
       const value = transaction[name];
       const { min, max } = this.transStats[name];
@@ -78,6 +78,7 @@ export default {
     height: 100%;
     overflow: scroll;
     width: 300px;
+    padding-left: 20px;
   }
 
   h2 {
