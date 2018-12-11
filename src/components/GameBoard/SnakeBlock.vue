@@ -10,7 +10,9 @@ import { mapState } from 'vuex';
 export default {
   name: 'SnakeBlock',
   props: {
-    idx: String,
+    idx: {
+      validator: (value) => isNaN(value) === false,
+    },
     id: String,
   },
   computed: {

@@ -17,7 +17,9 @@ export default {
     Robot
   },
   props: {
-    blockIdx: String,
+    blockIdx: {
+      validator: (value) => isNaN(value) === false,
+    },
     idx: String,
   },
   computed: {

@@ -15,7 +15,7 @@ export default {
     commit('addBlock', block);
     commit('addStats', block);
 
-    dispatch('addToken', block.idx.toString());
+    dispatch('addToken', block.idx);
   },
 
   async fetchBlocks({ commit, dispatch, state }) {

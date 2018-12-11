@@ -8,7 +8,7 @@
          class="collected-blocks"
          >
       <div class="collected-blocks__robot" >
-        <Robot :block-idx="block.idx.toString()" />
+        <Robot :block-idx="block.idx" />
       </div>
       <BlockInfo :block="block" />
     </div>
@@ -17,7 +17,7 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import Robot from './Robot.vue';
+import Robot from './GameBoard/Robot.vue';
 import BlockInfo from './BlockInfo.vue';
 
 

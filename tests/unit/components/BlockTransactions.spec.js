@@ -1,7 +1,6 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 import { shallowMount, createLocalVue } from '@vue/test-utils';
-import Store from '@/store';
 import BlockTransactions from '@/components/BlockTransactions.vue';
 
 const localVue = createLocalVue();
@@ -33,17 +32,20 @@ const elements = [
 ];
 
 
-Vue.set(Store.state.api, 'transStats', transStats);
-Vue.set(Store.state.api, 'blocks', [ BLOCK ]);
-Vue.set(Store.state.api, 'showTransactionsIdx', blockIdx);
+it('render without crashing showTransactionsIdx is null', () => {
+  const store = getStore(null);
+  const wrapper = shallowMount(BlockTransactions, { localVue, store });
+  expect(wrapper.vm.block)
+    .toEqual({});
+});
 
 
 describe('render without crashing', () => {
-  const wrapper = shallowMount(BlockTransactions, { localVue, store: Store });
+  const store = getStore(blockIdx);
+  const wrapper = shallowMount(BlockTransactions, { localVue, store });
+  const items = wrapper.findAll('.block-info');
 
   it('check getting block', () => {
-    expect(Store.state.api.blocks[ Store.state.api.showTransactionsIdx ])
-      .toEqual(BLOCK);
     expect(wrapper.vm.block)
       .toEqual(BLOCK);
     const header = wrapper.find('h2');
@@ -53,13 +55,12 @@ describe('render without crashing', () => {
 
 
   describe('transactions items for block', () => {
-    const items = wrapper.findAll('.block-info');
-
     it('items length', () => {
+      expect(wrapper.vm.block.transactions)
+        .toHaveLength(transactions.length);
       expect(items)
         .toHaveLength(transactions.length);
     });
-
 
     transactions.forEach((transaction, idx) => {
       const item = items.at(idx);
@@ -93,9 +94,21 @@ describe('render without crashing', () => {
   });
 });
 
+function getStore(blockIdx) {
+  return new Vuex.Store({
+    state: {
+      api: {
+        showTransactionsIdx: blockIdx,
+        transStats, blocks: [ BLOCK ],
+      }
+    },
+  });
+}
+
 
 it('hideTransactions', () => {
-  const wrapper = shallowMount(BlockTransactions, { localVue, store: Store });
+  const store = getStore(blockIdx);
+  const wrapper = shallowMount(BlockTransactions, { localVue, store });
   const hideTransactions = wrapper.find({ name: 'ToggleShowTransactionsButton' });
 
   expect(hideTransactions.exists())

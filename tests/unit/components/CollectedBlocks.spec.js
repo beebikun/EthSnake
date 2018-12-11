@@ -8,9 +8,9 @@ const localVue = createLocalVue();
 localVue.use(Vuex);
 
 const BLOCKS = [
-  { id: '0', idx: 'block0', number: 0 },
-  { id: '1', idx: 'block1', number: 1 },
-  { id: '2', idx: 'block2', number: 2 },
+  { idx: '0', id: 'block0', number: 0 },
+  { idx: '1', id: 'block1', number: 1 },
+  { idx: '2', id: 'block2', number: 2 },
 ];
 
 const TOKENS = {

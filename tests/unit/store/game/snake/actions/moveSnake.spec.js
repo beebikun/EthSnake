@@ -102,7 +102,7 @@ describe('moveSnake', () => {
       }
 
       function idx2blocks(idxs) {
-        return idxs.map((idx, i) => ({ i: 'snake:' + i, idx: idx.toString() }));
+        return idxs.map((idx, i) => ({ i: 'snake:' + i, idx }));
       }
     });
   }

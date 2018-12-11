@@ -18,7 +18,7 @@ it('getFree', () => {
   for (let i = 0; i < N; i++) {
     const idx = getters.getFree(state);
     expect(typeof idx)
-      .toBe('string');
+      .toBe('number');
     expect(tokens[idx])
       .toBeUndefined();
     expect(snake.includes(idx))
@@ -32,7 +32,7 @@ it('getFree', () => {
 
   function getUsedIdxs(step) {
     return Array(State.SIZE.count).fill()
-      .map((_, i) => i % step === 0 ? i.toString() : undefined)
+      .map((_, i) => i % step === 0 ? i : undefined)
       .filter(i => i !== undefined);
   }
 });
@@ -93,7 +93,7 @@ describe('neightborIdx', () => {
     `('$direction => $expected', ({ direction, expected }) => {
       const result = getters.neightborIdx(State)(idx, direction);
       expect(result)
-        .toEqual(expected ? expected.toString() : expected);
+        .toEqual(expected);
     });
   }
 });

@@ -24,7 +24,7 @@ export default {
         const prev = state.blocks[i - 1];
         const curr = state.blocks[i];
         const idx = prev ? prev.idx : nextFirstBlockIdx;
-        return { ...curr, idx: idx.toString() };
+        return { ...curr, idx };
       });
 
       commit('setSnake', nextPositions);
@@ -51,7 +51,7 @@ export default {
       const prev = blocks[ i - 1 ];
       const idx = prev ? rootGetters.neightborIdx(prev.idx, state.DIRECTIONS.DOWN) : startIdx;
       const id = 'snake:' + i;
-      blocks.push({ idx: idx.toString(), id });
+      blocks.push({ idx, id });
     }
 
     commit('setSnake', blocks);

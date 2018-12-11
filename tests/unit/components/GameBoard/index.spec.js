@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 import { shallowMount, createLocalVue } from '@vue/test-utils';
-import Board from '@/components/Board.vue';
+import GameBoard from '@/components/GameBoard/index.vue';
 
 const localVue = createLocalVue();
 localVue.use(Vuex);
@@ -10,9 +10,10 @@ const LOAD_BLOCKS_COUNT = 3;
 const TILES_COUNT = LOAD_BLOCKS_COUNT * 2;
 const SIZE = { w: 3, h: 4, side: 10 };
 
+
 it('render without crashing', () => {
   const store = getStore();
-  const wrapper = shallowMount(Board, { localVue, store });
+  const wrapper = shallowMount(GameBoard, { localVue, store });
 
   expect(wrapper.vm.$store)
     .toBeInstanceOf(Object);
@@ -22,9 +23,43 @@ it('render without crashing', () => {
     .toBe(store.state.game.tiles);
 });
 
+describe('board size', () => {
+  const store = getStore();
+  const wrapper = shallowMount(GameBoard, { localVue, store });
+  const BOARD_SIZE = {
+    width: SIZE.w * SIZE.side,
+    height: SIZE.h * SIZE.side,
+  };
+
+  it('GameBoard width', () => {
+    expect(wrapper.vm.width)
+      .toMatch(BOARD_SIZE.width + 'px');
+    expect(wrapper.vm.height)
+      .toMatch(BOARD_SIZE.height + 'px');
+    const style = wrapper.attributes('style');
+    styleMatch(style, 'width');
+  });
+
+  it('game container', () => {
+    const container = wrapper.find('.game__board');
+    expect(container.exists())
+      .toBe(true);
+    const style = container.attributes('style');
+    styleMatch(style, 'height');
+  });
+
+  function styleMatch(style, name) {
+    const value = BOARD_SIZE[name];
+    const r = new RegExp(`${ name }: ${ value }px;`);
+    expect(style)
+      .toMatch(r);
+  }
+
+});
+
 it('render tokens', async () => {
   const store = getStore();
-  const wrapper = shallowMount(Board, { localVue, store });
+  const wrapper = shallowMount(GameBoard, { localVue, store });
 
   await store.dispatch('fetchBlocks');
 
@@ -38,13 +73,13 @@ it('render tokens', async () => {
     .forEach((idx, i) => {
       const item = items.at(i);
       expect(item.props())
-        .toEqual({ idx, blockIdx: idx });
+        .toEqual({ idx, blockIdx: wrapper.vm.tokens[idx] });
     });
 });
 
 it('render bg tiles', () => {
   const store = getStore();
-  const wrapper = shallowMount(Board, { localVue, store });
+  const wrapper = shallowMount(GameBoard, { localVue, store });
 
   expect(wrapper.vm.tiles)
     .toHaveLength(TILES_COUNT);
@@ -54,22 +89,18 @@ it('render bg tiles', () => {
     .toHaveLength(TILES_COUNT);
 });
 
-it.each`elementName
-  ${ 'Snake' }
-  ${ 'CollectedBlocks' }
-  ${ 'GameInfo' }
-  `('render $elementName', ({ elementName }) => {
+it('render Snake', () => {
   const store = getStore();
-  const wrapper = shallowMount(Board, { localVue, store });
+  const wrapper = shallowMount(GameBoard, { localVue, store });
 
-  const element = wrapper.find({ name: elementName });
+  const element = wrapper.find({ name: 'Snake' });
   expect(element.exists())
     .toBe(true);
 });
 
 describe('PauseScreen', () => {
   const store = getStore();
-  const wrapper = shallowMount(Board, { localVue, store });
+  const wrapper = shallowMount(GameBoard, { localVue, store });
 
   it.each`
     gameState    | isExists
@@ -83,48 +114,12 @@ describe('PauseScreen', () => {
   });
 });
 
-describe('BlockTransactions', () => {
-  const store = getStore();
-  const wrapper = shallowMount(Board, { localVue, store });
-
-  it.each`
-    showTransactionsIdx | isExists
-    ${ 1 }              | ${ true }
-    ${ null }           | ${ false }
-  `('showTransactionsIdx: $showTransactionsIdx => $isExists', ({ showTransactionsIdx, isExists }) => {
-      Vue.set(store.state.api, 'showTransactionsIdx', showTransactionsIdx);
-      const element = wrapper.find({ name: 'BlockTransactions' });
-      expect(element.exists())
-        .toBe(isExists);
-  });
-});
-
-
-describe('game board', () => {
-  const store = getStore();
-  const wrapper = shallowMount(Board, { localVue, store });
-  const board = wrapper.find('#gameBoard');
-  expect(board.exists())
-    .toBe(true);
-  const style = board.attributes('style');
-
-  it.each`
-    name         | value
-    ${ 'width' } | ${ SIZE.w * SIZE.side }
-    ${ 'height' }| ${ SIZE.h * SIZE.side }
-  `('expect $name to be $value', expectStyle);
-
-  function expectStyle({ name, value }) {
-    expect(style)
-      .toMatch(new RegExp(`${ name }: ${ value }px;`));
-  }
-});
 
 function getStore() {
   const actions = {
     fetchBlocks: ({ state, rootState }) => {
       const blocks = Array(LOAD_BLOCKS_COUNT).fill()
-        .map((_, i) => ({ number: i, id: 'block' + i, idx: i.toString() }));
+        .map((_, i) => ({ number: i, id: 'block' + i, idx: i }));
       Vue.set(state, 'blocks', blocks);
 
       const tokens = blocks.reduce((bucket, block) => {

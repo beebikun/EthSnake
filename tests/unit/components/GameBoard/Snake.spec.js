@@ -2,7 +2,7 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 import { shallowMount, createLocalVue } from '@vue/test-utils';
 import Store from '@/store';
-import Snake from '@/components/Snake.vue';
+import Snake from '@/components/GameBoard/Snake.vue';
 
 const localVue = createLocalVue();
 localVue.use(Vuex);

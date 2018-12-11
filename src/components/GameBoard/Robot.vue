@@ -12,7 +12,9 @@ import { mapState } from 'vuex';
 export default {
   name: 'Robot',
   props: {
-    blockIdx: String,
+    blockIdx: {
+      validator: (value) => isNaN(value) === false,
+    },
   },
   computed: {
     ...mapState({

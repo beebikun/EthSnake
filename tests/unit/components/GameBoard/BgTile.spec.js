@@ -1,6 +1,6 @@
 import { shallowMount } from '@vue/test-utils';
 import GameState from '@/store/game/state';
-import BgTile from '@/components/BgTile.vue';
+import BgTile from '@/components/GameBoard/BgTile.vue';
 
 const idx = '1';
 const TILE = GameState.tiles[idx];

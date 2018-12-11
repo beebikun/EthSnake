@@ -8,23 +8,31 @@
        @keyup.space="switchGameState()"
        @click="pause()"
        >
-    <Board v-if="isValid" />
+
+    <GameBoard v-if="isValid" />
     <div id="validation-error" v-else >
       Sorry, you have to use MetaMask 🦊
     </div>
+
+    <CollectedBlocks />
+    <BlockTransactions v-if="showTransactions" />
   </div>
 </template>
 
 <script>
 import Eth from 'web3-eth';
-import { mapActions } from 'vuex';
-import Board from './components/Board.vue';
+import { mapActions, mapState } from 'vuex';
+import GameBoard from './components/GameBoard/index.vue';
+import CollectedBlocks from './components/CollectedBlocks.vue';
+import BlockTransactions from './components/BlockTransactions.vue';
 
 export default {
   name: 'App',
   data: () => ({ isValid: false }),
   components: {
-    Board
+    GameBoard,
+    CollectedBlocks,
+    BlockTransactions,
   },
   created: function () {
     if (typeof web3 !== 'undefined') {
@@ -39,11 +47,17 @@ export default {
   methods: {
     ...mapActions(['setDirection', 'switchGameState']),
     pause: function () {
-      if (this.$store.state.game.STATE === this.$store.state.game.STATES.RUN) {
+      const { game } = this.$store.state;
+      if (game.STATE === game.STATES.RUN) {
         this.$store.dispatch('pause');
       }
     }
   },
+  computed: {
+    ...mapState({
+      showTransactions: state => state.api.showTransactionsIdx,
+    })
+  }
 };
 
 </script>
@@ -58,5 +72,20 @@ body, html {
   font-family: 'VT323', monospace;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  padding: 10px;
+  padding-left: 20px;
+
+  background: black;
+  color: lawngreen;
+
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  overflow: hidden;
+  display: flex;
+  width: 100%;
 }
 </style>

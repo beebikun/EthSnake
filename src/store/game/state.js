@@ -21,7 +21,7 @@ export function getMatrixPos(idx) {
 }
 
 export function matrixToIdx(x, y) {
-  return (y * SIZE.w + x).toString();
+  return y * SIZE.w + x;
 }
 
 function getTile(_, idx) {
@@ -34,8 +34,7 @@ function getTile(_, idx) {
     height: size + 'px',
   };
   return Object.freeze({
-    style, matrixPos,
+    style, matrixPos, idx,
     id: 'tale_' + idx,
-    idx: idx.toString(),
   });
 }

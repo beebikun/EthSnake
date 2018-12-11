@@ -16,7 +16,7 @@ export default {
   getCollected(state, getters, rootState) {
     const blocks = rootState.api.blocks;
     const blocksOnBoard = Object.values(state.tokens);
-    return blocks.filter(({ idx }) => blocksOnBoard.includes(idx.toString()) === false);
+    return blocks.filter(({ idx }) => blocksOnBoard.includes(idx) === false);
   },
   neightborIdx(state) {
     return (idx, direction) => {

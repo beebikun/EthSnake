@@ -2,7 +2,7 @@
 import Vuex from 'vuex';
 import { shallowMount, createLocalVue } from '@vue/test-utils';
 import Store from '@/store';
-import SnakeBlock from '@/components/SnakeBlock.vue';
+import SnakeBlock from '@/components/GameBoard/SnakeBlock.vue';
 
 const localVue = createLocalVue();
 localVue.use(Vuex);

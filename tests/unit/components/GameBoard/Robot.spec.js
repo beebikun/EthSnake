@@ -2,7 +2,7 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 import { shallowMount, createLocalVue } from '@vue/test-utils';
 import Store from '@/store';
-import Robot from '@/components/Robot.vue';
+import Robot from '@/components/GameBoard/Robot.vue';
 
 const localVue = createLocalVue();
 localVue.use(Vuex);

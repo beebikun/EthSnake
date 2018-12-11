@@ -2,7 +2,7 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 import { shallowMount, createLocalVue } from '@vue/test-utils';
 import Store from '@/store';
-import Token from '@/components/Token.vue';
+import Token from '@/components/GameBoard/Token.vue';
 
 const localVue = createLocalVue();
 localVue.use(Vuex);

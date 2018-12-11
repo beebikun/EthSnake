@@ -30,10 +30,10 @@ export default {
       sub: (state) => {
         switch(state.game.STATE) {
           case state.game.STATES.PAUSE:
-            return 'resume the game';
+            return 'RESUME the game';
           case state.game.STATES.GAMEOVER:
           case state.game.STATES.WIN:
-            return 'start again';
+            return 'START again';
           default:
             return '';
         }

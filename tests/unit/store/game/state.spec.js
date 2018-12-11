@@ -40,7 +40,7 @@ describe('getMatrixPos | matrixToIdx', () => {
       .toEqual({ x, y });
     const result = matrixToIdx(x, y);
     expect(result)
-      .toEqual(idx.toString());
+      .toEqual(idx);
   });
 });
 
@@ -60,7 +60,7 @@ it('tiles', () => {
       top: expect.any(String),
       left: expect.any(String),
     }),
-    idx: expect.any(String),
+    idx: expect.any(Number),
   });
   expect(state.tiles)
     .toContainEqual(expectedTile);
