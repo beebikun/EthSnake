@@ -1,4 +1,4 @@
-# l10b
+# EthSnake
 
 ## Project setup
 ```
@@ -10,20 +10,9 @@ npm install
 npm run serve
 ```
 
-### Compiles and minifies for production
-```
-npm run build
-```
+## Description
 
-### Run your tests
-```
-npm run test
-```
+A Snake game, where a snake eats the last 10 blocks from Eth network.
+Block details/transactins are available after the block was collected.
 
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+![preview](https://i.imgur.com/KgUAjBG.png)
