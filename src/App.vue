@@ -86,6 +86,5 @@ body, html {
   bottom: 0;
   overflow: hidden;
   display: flex;
-  width: 100%;
 }
 </style>
