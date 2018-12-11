@@ -1,7 +1,8 @@
 const LAST_BLOCK = Math.ceil(Math.random() * 10 ** 7);
 
 export default class Eth {
-  constructor(p = Promise.resolve()) {
+  constructor() {
+    const p = Promise.resolve();
     const _requests = [];
     const BatchRequestAdd = jest.fn((getBlock) => {
       _requests.push(getBlock);
@@ -24,6 +25,7 @@ export default class Eth {
 
   buildBlock = jest.fn((number) => ({
       number,
+      transactions: [],
   }));
 
   getBlock = {
