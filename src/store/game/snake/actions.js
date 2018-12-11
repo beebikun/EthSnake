@@ -15,8 +15,6 @@ export default {
     const currFirstBlockIdx = state.blocks[0].idx;
     const nextFirstBlockIdx = rootGetters.neightborIdx(currFirstBlockIdx, state.direction );
     const collision = nextFirstBlockIdx && state.blocks.find(isCollition);
-    console.log(state.blocks.map(({idx}) => idx));
-    console.log([ currFirstBlockIdx, nextFirstBlockIdx, state.direction, collision && collision.idx, state.speed ])
     if ( nextFirstBlockIdx === null || collision !== undefined ) {
       dispatch('gameover');
     } else {
