@@ -1,3 +1,4 @@
+import Vue from 'vue';
 import Vuex from 'vuex';
 import { shallowMount, createLocalVue } from '@vue/test-utils';
 import Eth from 'web3-eth'; // mocked lib
@@ -24,6 +25,7 @@ describe('keybindings', () => {
   const mockedMounted = jest.spyOn(App, 'mounted');
   const wrapper = shallowMount(App, { localVue, store: Store });
 
+
   it('check actions map', () => {
     expect(mockedMounted)
       .toHaveBeenCalled();
@@ -31,6 +33,23 @@ describe('keybindings', () => {
       .toBeInstanceOf(Function);
     expect(wrapper.vm.switchGameState)
       .toBeInstanceOf(Function);
+    expect(wrapper.vm.pause)
+      .toBeInstanceOf(Function);
+  });
+
+  describe('pause on click', () => {
+    it('call when game is active', () => {
+      Vue.set(Store.state.game, 'STATE', 'RUN');
+      wrapper.trigger('click');
+      expect(mockedDispatch)
+        .toHaveBeenLastCalledWith('pause');
+    });
+    it('dont call when game isnt active', () => {
+      Vue.set(Store.state.game, 'STATE', 'WIN');
+      wrapper.trigger('click');
+      expect(mockedDispatch)
+        .not.toHaveBeenCalled();
+    });
   });
 
   it('switchGameState', () => {

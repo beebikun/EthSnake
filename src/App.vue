@@ -6,6 +6,7 @@
        @keyup.right="setDirection('RIGHT')"
        @keyup.left="setDirection('LEFT')"
        @keyup.space="switchGameState()"
+       @click="pause()"
        >
     <Board v-if="isValid" />
     <div id="validation-error" v-else >
@@ -37,6 +38,11 @@ export default {
   },
   methods: {
     ...mapActions(['setDirection', 'switchGameState']),
+    pause: function () {
+      if (this.$store.state.game.STATE === this.$store.state.game.STATES.RUN) {
+        this.$store.dispatch('pause');
+      }
+    }
   },
 };
 
