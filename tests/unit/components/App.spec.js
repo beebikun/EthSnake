@@ -25,6 +25,10 @@ describe('keybindings', () => {
   const mockedMounted = jest.spyOn(App, 'mounted');
   const wrapper = shallowMount(App, { localVue, store: Store });
 
+  afterEach(() => {
+    Vue.set(Store.state.game, 'STATE', null);
+  });
+
 
   it('check actions map', () => {
     expect(mockedMounted)
