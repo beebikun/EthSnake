@@ -8,31 +8,19 @@
     <dl class="block-info"
         v-for="transaction in block.transactions"
         :key='transaction.hash'>
-      <dt>transactionIndex:</dt>
+      <dt>Transaction Index:</dt>
           <dd>
             {{ transaction.transactionIndex }}
           </dd>
-      <!-- <dt>from:</dt>
-          <dd>
-            {{ transaction.from }}
-          </dd>
-      <dt>to:</dt>
-          <dd>
-            {{ transaction.to }}
-          </dd> -->
-      <dt>value:</dt>
+      <dt>Value:</dt>
           <dd>
             {{ transaction.value }}
           </dd>
-      <dt>input:</dt>
-          <dd>
-            {{ transaction.input }}
-          </dd>
-      <dt>gasPrice:</dt>
+      <dt>Gas Price:</dt>
           <dd>
             {{ transaction.gasPrice }}
           </dd>
-      <dt>gas:</dt>
+      <dt>Gas:</dt>
           <dd>
             {{ transaction.gas }}
           </dd>
