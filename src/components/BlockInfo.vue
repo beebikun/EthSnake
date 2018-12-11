@@ -1,5 +1,5 @@
 <template>
-<dl class="block-info">
+  <dl class="block-info">
     <dt>Time:</dt>
         <dd>
           {{ timestamp }}
@@ -29,16 +29,19 @@
           <div class="stats" :style="barWidth('gasUsed')"> </div>
           <span class="info">{{ block.gasUsed }}</span>
         </dd>
-    <dt>Transactions:</dt>
+    <dt>Transactions: <span @click="showTransactions(block.idx)"
+                            class="toggleShowTransactions">SHOW
+                     </span>
+                   </dt>
         <dd>
           <div class="stats" :style="barWidth('transactions')"> </div>
           <span class="info">{{ block.transactions.length }}</span>
         </dd>
-</dl>
+  </dl>
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapState, mapActions } from 'vuex';
 
 export default {
   name: 'BlockInfo',
@@ -60,6 +63,7 @@ export default {
         width: this.getStatsValue(name) + '%',
       }
     },
+    ...mapActions(['showTransactions']),
   },
   computed: {
     ...mapState({
@@ -71,7 +75,7 @@ export default {
       const time = `${dt.getHours()}:${ dt.getMinutes() }:${ dt.getSeconds() }`;
       return `${ date } ${ time }`;
     }
-  }
+  },
 };
 
 </script>

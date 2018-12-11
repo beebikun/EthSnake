@@ -17,6 +17,8 @@
       </div>
 
       <CollectedBlocks />
+
+      <BlockTransactions v-if="showTransactions" />
     </div>
 
     <GameInfo />
@@ -34,6 +36,7 @@ import Snake from './Snake.vue';
 import CollectedBlocks from './CollectedBlocks.vue';
 import GameInfo from './GameInfo.vue';
 import PauseScreen from './PauseScreen.vue';
+import BlockTransactions from './BlockTransactions.vue';
 
 export default {
   name: 'Board',
@@ -44,12 +47,14 @@ export default {
     CollectedBlocks,
     GameInfo,
     PauseScreen,
+    BlockTransactions,
   },
   computed: {
     ...mapState({
       tokens: state => state.game.tokens,
       tiles: state => state.game.tiles,
       showPuase: state => state.game.STATE != state.game.STATES.RUN,
+      showTransactions: state => state.api.showTransactionsIdx,
       style: state => {
         const { w, h, side } = state.game.SIZE;
         return {

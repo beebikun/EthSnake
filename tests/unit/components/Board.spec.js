@@ -83,6 +83,22 @@ describe('PauseScreen', () => {
   });
 });
 
+describe('BlockTransactions', () => {
+  const store = getStore();
+  const wrapper = shallowMount(Board, { localVue, store });
+
+  it.each`
+    showTransactionsIdx | isExists
+    ${ 1 }              | ${ true }
+    ${ null }           | ${ false }
+  `('showTransactionsIdx: $showTransactionsIdx => $isExists', ({ showTransactionsIdx, isExists }) => {
+      Vue.set(store.state.api, 'showTransactionsIdx', showTransactionsIdx);
+      const element = wrapper.find({ name: 'BlockTransactions' });
+      expect(element.exists())
+        .toBe(isExists);
+  });
+});
+
 
 describe('game board', () => {
   const store = getStore();
@@ -102,7 +118,7 @@ describe('game board', () => {
     expect(style)
       .toMatch(new RegExp(`${ name }: ${ value }px;`));
   }
-  });
+});
 
 function getStore() {
   const actions = {

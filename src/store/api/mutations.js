@@ -26,5 +26,8 @@ export default {
   },
   setEth (state, eth) {
     Vue.set(state, 'eth', eth);
+  },
+  showTransactions(state, idx) {
+    Vue.set(state, 'showTransactionsIdx', idx);
   }
 };

@@ -19,6 +19,7 @@ export default {
   },
 
   async fetchBlocks({ commit, dispatch, state }) {
+    dispatch('showTransactions', null);
     commit('clearBlocks');
 
     const { eth, LOAD_BLOCKS_COUNT } = state;
@@ -38,5 +39,9 @@ export default {
 
     await batch.execute();
     dispatch('resume');
-  }
+  },
+
+  showTransactions({ commit }, idx) {
+    commit('showTransactions', idx);
+  },
 };

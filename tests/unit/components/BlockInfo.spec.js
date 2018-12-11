@@ -36,7 +36,7 @@ const elements = [
   [ 'Size:', BLOCK.size, '10.5' ],
   [ 'Gas Limit:', BLOCK.gasLimit, '89.5' ],
   [ 'Gas Used:', BLOCK.gasUsed, '100.0' ],
-  [ 'Transactions:', 3, '50.0' ],
+  [ 'Transactions: SHOW', 3, '50.0' ],
 ];
 
 Vue.set(Store.state.api, 'blocksStats', blocksStats);
@@ -71,3 +71,15 @@ elements.forEach(([title, value, percent], idx) => {
   });
 });
 
+it('showTransactions', () => {
+  const mockedDispatch = jest.spyOn(Store, 'dispatch');
+  const showTransactions = wrapper.find('.toggleShowTransactions');
+
+  expect(wrapper.vm.showTransactions)
+    .toBeInstanceOf(Function);
+
+  showTransactions.trigger('click');
+
+  expect(mockedDispatch)
+    .toHaveBeenCalledWith('showTransactions', BLOCK.idx);
+});

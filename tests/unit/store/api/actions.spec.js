@@ -20,6 +20,15 @@ it('add block', () => {
 });
 
 
+it('showTransactions', () => {
+  const idx = '1';
+  const commit = jest.fn();
+  actions.showTransactions({ commit }, idx);
+  expect(commit)
+    .toHaveBeenCalledWith('showTransactions', idx);
+});
+
+
 describe('set eth', () => {
   it('set when no eth was set', () => {
     const eth = { hello: 'there' };
@@ -72,7 +81,7 @@ describe('fetch bocks', () => {
       .toHaveBeenCalledWith('clearBlocks');
 
     expect(dispatch)
-      .toHaveBeenCalledTimes(state.LOAD_BLOCKS_COUNT + 1);
+      .toHaveBeenCalledTimes(state.LOAD_BLOCKS_COUNT + 2);
     const expectedBlock = expect.objectContaining({
       idx: expect.any(Number),
       block: expect.any(Object),
@@ -81,6 +90,8 @@ describe('fetch bocks', () => {
       .toHaveBeenCalledWith('addBlock', expectedBlock);
     expect(dispatch)
       .toHaveBeenLastCalledWith('resume');
+    expect(dispatch)
+      .toHaveBeenNthCalledWith(1, 'showTransactions', null);
   });
 
   it('empty block', async () => {
@@ -96,8 +107,10 @@ describe('fetch bocks', () => {
       .toHaveBeenCalledWith('clearBlocks');
 
     expect(dispatch)
-      .toHaveBeenCalledTimes(1);
+      .toHaveBeenCalledTimes(2);
     expect(dispatch)
-      .toHaveBeenLastCalledWith('resume');
+      .toHaveBeenNthCalledWith(1, 'showTransactions', null);
+    expect(dispatch)
+      .toHaveBeenNthCalledWith(2, 'resume');
   });
 });

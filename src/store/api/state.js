@@ -25,4 +25,5 @@ export default {
   eth: null,
   blocks: [],
   blocksStats,
+  showTransactionsIdx: null,
 };

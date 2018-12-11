@@ -12,6 +12,14 @@ it('set eth', () => {
     .toEqual(eth);
 });
 
+it('showTransactions', () => {
+  const state = { showTransactionsIdx: null };
+  const idx = 1;
+  mutations.showTransactions(state, idx);
+  expect(state.showTransactionsIdx)
+    .toBe(idx);
+});
+
 it('clear blocks', () => {
   const state = { blocks: [ 1, 2 ] };
   mutations.clearBlocks(state);
