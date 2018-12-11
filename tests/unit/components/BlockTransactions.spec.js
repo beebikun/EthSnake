@@ -1,4 +1,3 @@
-import Vue from 'vue';
 import Vuex from 'vuex';
 import { shallowMount, createLocalVue } from '@vue/test-utils';
 import BlockTransactions from '@/components/BlockTransactions.vue';
@@ -6,7 +5,7 @@ import BlockTransactions from '@/components/BlockTransactions.vue';
 const localVue = createLocalVue();
 localVue.use(Vuex);
 
-const blockIdx = 0;
+const BLOCK_IDX = 0;
 const TRANSACTION = {
   hash: 0,
   transactionIndex: 0,
@@ -41,7 +40,7 @@ it('render without crashing showTransactionsIdx is null', () => {
 
 
 describe('render without crashing', () => {
-  const store = getStore(blockIdx);
+  const store = getStore(BLOCK_IDX);
   const wrapper = shallowMount(BlockTransactions, { localVue, store });
   const items = wrapper.findAll('.block-info');
 
@@ -107,7 +106,7 @@ function getStore(blockIdx) {
 
 
 it('hideTransactions', () => {
-  const store = getStore(blockIdx);
+  const store = getStore(BLOCK_IDX);
   const wrapper = shallowMount(BlockTransactions, { localVue, store });
   const hideTransactions = wrapper.find({ name: 'ToggleShowTransactionsButton' });
 
