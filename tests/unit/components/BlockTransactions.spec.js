@@ -17,7 +17,7 @@ const TRANSACTION = {
 const transactions = Array(2).fill('')
   .map((_, idx) => ({ ...TRANSACTION, hash: idx }));
 const BLOCK = {
-  idx: 0, transactions,
+  idx: 0, number: 1, transactions,
 };
 const transStats = {
   value: { min: 10, max: 200 },
@@ -46,6 +46,9 @@ describe('render without crashing', () => {
       .toEqual(BLOCK);
     expect(wrapper.vm.block)
       .toEqual(BLOCK);
+    const header = wrapper.find('h2');
+    expect(header.text())
+      .toEqual(BLOCK.number.toString());
   });
 
 

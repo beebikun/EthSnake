@@ -2,8 +2,12 @@
   <div id="transactions"
        >
 
-    <span @click="showTransactions(null)"
-          class="toggleShowTransactions">CLOSE</span>
+    <div>
+      <span @click="showTransactions(null)"
+            class="toggleShowTransactions">CLOSE</span>
+    </div>
+
+    <h2> {{ block.number }} </h2>
 
     <dl class="block-info"
         v-for="transaction in block.transactions"
@@ -75,6 +79,10 @@ export default {
     height: 100%;
     overflow: scroll;
     width: 300px;
+  }
+
+  h2 {
+    margin: 8px 0;
   }
 
   .block-info {
