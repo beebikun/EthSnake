@@ -54,23 +54,35 @@ it('render bg tiles', () => {
     .toHaveLength(TILES_COUNT);
 });
 
-it('render snake', () => {
+it.each`elementName
+  ${ 'Snake' }
+  ${ 'CollectedBlocks' }
+  ${ 'GameInfo' }
+  `('render $elementName', ({ elementName }) => {
   const store = getStore();
   const wrapper = shallowMount(Board, { localVue, store });
 
-  const snake = wrapper.find({ name: 'Snake' });
-  expect(snake.exists())
-    .toBe(true);
-});
-
-it('game info', () => {
-  const store = getStore();
-  const wrapper = shallowMount(Board, { localVue, store });
-
-  const element = wrapper.find({ name: 'GameInfo' });
+  const element = wrapper.find({ name: elementName });
   expect(element.exists())
     .toBe(true);
 });
+
+describe('PauseScreen', () => {
+  const store = getStore();
+  const wrapper = shallowMount(Board, { localVue, store });
+
+  it.each`
+    gameState    | isExists
+    ${ 'RUN' }   | ${ false }
+    ${ 'PAUSE' } | ${ true }
+  `('Game is $gameState => Sreen exists: $isExists', ({ gameState, isExists }) => {
+      Vue.set(store.state.game, 'STATE', gameState);
+      const element = wrapper.find({ name: 'PauseScreen' });
+      expect(element.exists())
+        .toBe(isExists);
+  });
+});
+
 
 describe('game board', () => {
   const store = getStore();
@@ -124,12 +136,4 @@ function getStore() {
     },
   });
 }
-
-it('CollectedBlocks', () => {
-  const store = getStore();
-  const wrapper = shallowMount(Board, { localVue, store });
-  const CollectedBlocks = wrapper.find({ name: 'CollectedBlocks' });
-  expect(CollectedBlocks.exists())
-    .toBe(true);
-});
 

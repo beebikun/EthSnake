@@ -13,12 +13,14 @@
                :block-idx="blockIdx"
                />
         <Snake />
+        <PauseScreen v-if="showPuase" />
       </div>
 
       <CollectedBlocks />
     </div>
 
     <GameInfo />
+
 
   </div>
 </template>
@@ -31,6 +33,7 @@ import BgTile from './BgTile.vue';
 import Snake from './Snake.vue';
 import CollectedBlocks from './CollectedBlocks.vue';
 import GameInfo from './GameInfo.vue';
+import PauseScreen from './PauseScreen.vue';
 
 export default {
   name: 'Board',
@@ -40,11 +43,13 @@ export default {
     Snake,
     CollectedBlocks,
     GameInfo,
+    PauseScreen,
   },
   computed: {
     ...mapState({
       tokens: state => state.game.tokens,
       tiles: state => state.game.tiles,
+      showPuase: state => state.game.STATE != state.game.STATES.RUN,
       style: state => {
         const { w, h, side } = state.game.SIZE;
         return {
@@ -82,6 +87,7 @@ export default {
 
   #gameBoard {
     border: 2px solid yellow;
+    position: relative;
     position: relative;
   }
 </style>

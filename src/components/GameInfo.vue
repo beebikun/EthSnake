@@ -7,7 +7,7 @@
       Use arrows ← ↑ → ↓ to control the snake
     </p>
     <p>
-      Press SPACE to {{ nextGameState }} the game
+      Press SPACE to PAUSE
     </p>
   </div>
 </template>
@@ -20,16 +20,6 @@ export default {
   name: 'GameInfo',
   computed: {
     ...mapState({
-      nextGameState: (state) => {
-        switch(state.game.STATE) {
-          case state.game.STATES.RUN:
-            return 'PAUSE';
-          case state.game.STATES.PAUSE:
-            return 'RESUME';
-          default:
-            return 'RUN';
-        }
-      },
       style: (state) => {
         const { h, side } = state.game.SIZE;
         return {
