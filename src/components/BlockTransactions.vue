@@ -52,8 +52,7 @@ export default {
       return (v * 100 / d);
     },
     barWidth(transaction, name) {
-      const { min, max } = this.transStats[name];
-      const value = this.getStatsValue(transaction, name)
+      const value = this.getStatsValue(transaction, name);
       return {
         width: value.toFixed(1) + '%',
       }
