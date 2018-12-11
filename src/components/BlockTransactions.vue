@@ -9,21 +9,24 @@
         v-for="transaction in block.transactions"
         :key='transaction.hash'>
       <dt>Transaction Index:</dt>
-          <dd>
-            {{ transaction.transactionIndex }}
-          </dd>
+        <dd>
+          {{ transaction.transactionIndex }}
+        </dd>
       <dt>Value:</dt>
-          <dd>
-            {{ transaction.value }}
-          </dd>
+        <dd>
+          <div class="stats" :style="barWidth(transaction, 'value')"> </div>
+          <span class="info">{{ transaction.value }}</span>
+        </dd>
       <dt>Gas Price:</dt>
-          <dd>
-            {{ transaction.gasPrice }}
-          </dd>
+        <dd>
+          <div class="stats" :style="barWidth(transaction, 'gasPrice')"> </div>
+          <span class="info">{{ transaction.gasPrice }}</span>
+        </dd>
       <dt>Gas:</dt>
-          <dd>
-            {{ transaction.gas }}
-          </dd>
+        <dd>
+          <div class="stats" :style="barWidth(transaction, 'gas')"> </div>
+          <span class="info">{{ transaction.gas }}</span>
+        </dd>
     </dl>
 
   </div>
@@ -37,9 +40,24 @@ export default {
   name: 'BlockTransactions',
   methods: {
     ...mapActions(['showTransactions']),
+    getStatsValue(transaction, name) {
+      const value = transaction[name];
+      const { min, max } = this.transStats[name];
+      const d = max - min;
+      const v = value - min;
+      return (v * 100 / d);
+    },
+    barWidth(transaction, name) {
+      const { min, max } = this.transStats[name];
+      const value = this.getStatsValue(transaction, name)
+      return {
+        width: value.toFixed(1) + '%',
+      }
+    },
   },
   computed: {
     ...mapState({
+      transStats: (state) => state.api.transStats,
       block: (state) => state.api.blocks[ state.api.showTransactionsIdx ] || {},
     }),
   },
@@ -67,5 +85,23 @@ export default {
     width: 100%;
     max-width: 100%;
     word-break: break-all;
+  }
+
+  dd {
+    position: relative;
+  }
+
+  .info {
+    position: relative;
+    z-index: 10;
+  }
+
+  .stats {
+    position: absolute;
+    left: 0;
+    height: 100%;
+    top: 0;
+    background: darkslategray;
+    min-width: 4px;
   }
 </style>

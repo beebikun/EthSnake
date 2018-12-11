@@ -41,35 +41,55 @@ it('add block', () => {
 });
 
 describe('addStats', () => {
-  const name = State.STATS_KEYS[0];
-  const initialStats = State.blocksStats[name];
+  const blocksFieldName = State.STATS_KEYS[0];
+  const transFieldName = State.TRANS_STATS_KEYS[0];
+  const initialStats = State.blocksStats[blocksFieldName];
 
   const stats = { min: 5, max: 10 };
   const minValue = stats.min - 1;
   const maxValue = stats.max + 1;
-  const avgValue = (stats.max + stats.min)/2;
+  const avgValue = Math.round((stats.max + stats.min)/2);
   const anyValue = 7;
 
-  it.each`
-    value         | blocksStats       | expectedStats
+  describe.each`
+    value         | startStart        | expectedStats
     ${ anyValue } | ${ initialStats } | ${ { min: anyValue, max: anyValue } }
     ${ minValue } | ${ stats }        | ${ { ...stats, min: minValue } }
     ${ maxValue } | ${ stats }        | ${ { ...stats, max: maxValue } }
     ${ avgValue } | ${ stats }        | ${ stats }
-  `('$blocksStats >> $value ==> $expectedStats', ({ value, blocksStats, expectedStats }) => {
+  `('$startStart >> $value ==> $expectedStats', ({ value, startStart, expectedStats }) => {
     const state = {
-      STATS_KEYS: [ name ],
+      STATS_KEYS: [ blocksFieldName ],
+      TRANS_STATS_KEYS: [ transFieldName ],
       blocksStats: {
-        [ name ] : { ...blocksStats },
-        transactions: { ...stats }
+        [ blocksFieldName ] : { ...startStart },
+        transactions: { ...startStart }
+      },
+      transStats: {
+        [ transFieldName ] : { ...startStart },
       },
     };
-    const block = { [ name ]: value, transactions: Array(minValue).fill('t') };
+    const block = {
+      [ blocksFieldName ]: value,
+      transactions: Array(value).fill('t').map(() => ({
+        [ transFieldName ]: value,
+      })),
+    };
     mutations.addStats(state, block);
-    expect(state.blocksStats)
-      .toEqual({
-        [name]: expectedStats,
-        transactions: { ...stats, min: minValue },
-      });
+
+    it('blocksStats', () => {
+      expect(state.blocksStats[blocksFieldName])
+        .toEqual(expectedStats);
+    });
+
+    it('blocksStats: transactions length', () => {
+      expect(state.blocksStats.transactions)
+        .toEqual(expectedStats);
+    });
+
+    it('transStats', () => {
+      expect(state.transStats[transFieldName])
+        .toEqual(expectedStats);
+    });
   });
 });

@@ -8,21 +8,31 @@ export default {
     Vue.set(state, 'blocks', []);
   },
   addStats (state, block) {
-    state.STATS_KEYS.forEach((name) => {
-      const value = block[name];
-      checkRange(name, value, 'min', Math.min);
-      checkRange(name, value, 'max', Math.max);
+    collectStats(state.STATS_KEYS, 'blocksStats', block);
+
+    const transactionsLength = block.transactions.length;
+    checkRange('blocksStats', 'transactions', transactionsLength);
+    checkRange('blocksStats', 'transactions', transactionsLength);
+
+    block.transactions.forEach((transaction) => {
+      collectStats(state.TRANS_STATS_KEYS, 'transStats', transaction);
     });
 
-    const transactions = block.transactions.length;
-    checkRange('transactions', transactions, 'min', Math.min);
-    checkRange('transactions', transactions, 'max', Math.max);
+    function checkRange(statsName, name, value) {
+      _check('min', Math.min);
+      _check('max', Math.max);
 
-    function checkRange(name, value, key, fn) {
-      const old = state.blocksStats[name][key];
-      Vue.set(state.blocksStats[name], key, fn(old, value));
+      function _check(key, fn) {
+        const old = state[statsName][name][key];
+        Vue.set(state[statsName][name], key, fn(old, value));
+      }
     }
 
+    function collectStats(fields, statsName, item) {
+      fields.forEach((name) => {
+        checkRange(statsName, name, item[name]);
+      });
+    }
   },
   setEth (state, eth) {
     Vue.set(state, 'eth', eth);
