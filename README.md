@@ -9,6 +9,8 @@ npm install
 ```
 npm run serve
 ```
+###
+Used libs: Vue / Vuex / Web3js
 
 ## Description
 
