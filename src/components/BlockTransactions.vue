@@ -1,34 +1,18 @@
 <template>
-  <div id="transactions"
+  <div class="transactions-container"
        >
 
     <ToggleShowTransactionsButton />
 
     <h2> {{ block.number }} </h2>
 
-    <dl class="block-info"
+    <StatsList
         v-for="transaction in block.transactions"
-        :key='transaction.hash'>
-      <dt>Transaction Index:</dt>
-        <dd>
-          {{ transaction.transactionIndex }}
-        </dd>
-      <dt>Value:</dt>
-        <dd>
-          <div class="stats" :style="barWidth(transaction, 'value')"> </div>
-          <span class="info">{{ transaction.value }}</span>
-        </dd>
-      <dt>Gas Price:</dt>
-        <dd>
-          <div class="stats" :style="barWidth(transaction, 'gasPrice')"> </div>
-          <span class="info">{{ transaction.gasPrice }}</span>
-        </dd>
-      <dt>Gas:</dt>
-        <dd>
-          <div class="stats" :style="barWidth(transaction, 'gas')"> </div>
-          <span class="info">{{ transaction.gas }}</span>
-        </dd>
-    </dl>
+        :key="transaction.hash"
+        :src="transaction"
+        :items="getStatsItems(transaction)"
+        :is-block-stats="false"
+        />
 
   </div>
 </template>
@@ -36,31 +20,28 @@
 <script>
 import { mapState } from 'vuex';
 import ToggleShowTransactionsButton from './ToggleShowTransactionsButton.vue';
+import StatsList from './StatsList.vue';
 
 
 export default {
   name: 'BlockTransactions',
   components: {
     ToggleShowTransactionsButton,
+    StatsList,
   },
   methods: {
-    getStatsValue(transaction, name) {
-      const value = transaction[name];
-      const { min, max } = this.transStats[name];
-      const d = max - min;
-      const v = value - min;
-      return (v * 100 / d);
-    },
-    barWidth(transaction, name) {
-      const value = this.getStatsValue(transaction, name);
-      return {
-        width: value.toFixed(1) + '%',
-      }
-    },
+    getStatsItems(transaction) {
+      return [
+        { key: 'transactionIndex', title: 'Transaction Index',
+          value: transaction.transactionIndex },
+        { key: 'value', title: 'Value' },
+        { key: 'gasPrice', title: 'Gas Price' },
+        { key: 'gas', title: 'Gas' },
+      ];
+    }
   },
   computed: {
     ...mapState({
-      transStats: (state) => state.api.transStats,
       block: (state) => state.api.blocks[ state.api.showTransactionsIdx ] || {},
     }),
   },
@@ -69,8 +50,7 @@ export default {
 </script>
 
 <style scoped>
-
-  #transactions {
+  .transactions-container {
     position: absolute;
     background: black;
     z-index: 10;
@@ -79,37 +59,5 @@ export default {
     overflow: scroll;
     width: 300px;
     padding-left: 20px;
-  }
-
-  h2 {
-    margin: 8px 0;
-  }
-
-  .block-info {
-    margin: 0;
-    border-bottom: 1px solid;
-    padding-bottom: 7px;
-    margin-left: 7px;
-    width: 100%;
-    max-width: 100%;
-    word-break: break-all;
-  }
-
-  dd {
-    position: relative;
-  }
-
-  .info {
-    position: relative;
-    z-index: 10;
-  }
-
-  .stats {
-    position: absolute;
-    left: 0;
-    height: 100%;
-    top: 0;
-    background: darkslategray;
-    min-width: 4px;
   }
 </style>

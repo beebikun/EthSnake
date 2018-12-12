@@ -10,7 +10,12 @@
       <div class="collected-blocks__robot" >
         <Robot :block-idx="block.idx" />
       </div>
-      <BlockInfo :block="block" />
+
+      <StatsList
+        :src="block"
+        :items="statsItems(block)"
+        :is-block-stats="true"
+        />
     </div>
   </div>
 </template>
@@ -18,18 +23,37 @@
 <script>
 import { mapGetters } from 'vuex';
 import Robot from './GameBoard/Robot.vue';
-import BlockInfo from './BlockInfo.vue';
-
+import StatsList from './StatsList.vue';
 
 export default {
   name: 'CollectedBlocks',
   components: {
-    BlockInfo,
+    StatsList,
     Robot,
   },
   computed: {
     ...mapGetters({ blocks: 'getCollected' }),
-  }
+  },
+  methods: {
+    statsItems: function (block) {
+      const dt = new Date(block.timestamp * 1000);
+      const date = `${ dt.getDate() }/${ dt.getMonth() + 1 }`;
+      const time = `${dt.getHours()}:${ dt.getMinutes() }:${ dt.getSeconds() }`;
+      const timestamp = `${ date } ${ time }`;
+
+      return [
+        { key: 'timestamp', title: 'Time', value: timestamp },
+        { key: 'difficulty', title: 'Difficulty' },
+        { key: 'totalDifficulty', title: 'Total Difficulty' },
+        { key: 'size', title: 'Size' },
+        { key: 'gasLimit', title: 'Gas Limit' },
+        { key: 'gasUsed', title: 'Gas Used' },
+        { key: 'transactions', title: 'Transactions',
+          value: block.transactions.length,
+          transactionsToggleIdx: block.idx },
+      ];
+    },
+  },
 };
 
 </script>

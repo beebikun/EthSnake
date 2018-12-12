@@ -17,21 +17,8 @@ const transactions = Array(2).fill('')
 const BLOCK = {
   idx: 0, number: 1, transactions,
 };
-const transStats = {
-  value: { min: 10, max: 200 },
-  gasPrice: { min: 10, max: 200 },
-  gas: { min: 10, max: 200 },
-};
 
-const elements = [
-  [ 'Transaction Index:', TRANSACTION.transactionIndex ],
-  [ 'Value:', TRANSACTION.value, '0.0' ],
-  [ 'Gas Price:', TRANSACTION.gasPrice, '47.4' ],
-  [ 'Gas:', TRANSACTION.gas, '100.0' ],
-];
-
-
-it('render without crashing showTransactionsIdx is null', () => {
+it('showTransactionsIdx is null', () => {
   const store = getStore(null);
   const wrapper = shallowMount(BlockTransactions, { localVue, store });
   expect(wrapper.vm.block)
@@ -39,10 +26,25 @@ it('render without crashing showTransactionsIdx is null', () => {
 });
 
 
-describe('render without crashing', () => {
+it('getStatsItems', () => {
   const store = getStore(BLOCK_IDX);
   const wrapper = shallowMount(BlockTransactions, { localVue, store });
-  const items = wrapper.findAll('.block-info');
+
+  const statsItems = wrapper.vm.getStatsItems(TRANSACTION);
+  expect(statsItems)
+    .toEqual([
+      { key: 'transactionIndex', title: 'Transaction Index',
+        value: TRANSACTION.transactionIndex },
+      { key: 'value', title: 'Value' },
+      { key: 'gasPrice', title: 'Gas Price' },
+      { key: 'gas', title: 'Gas' },
+  ]);
+});
+
+
+describe('showTransactionsIdx is number', () => {
+  const store = getStore(BLOCK_IDX);
+  const wrapper = shallowMount(BlockTransactions, { localVue, store });
 
   it('check getting block', () => {
     expect(wrapper.vm.block)
@@ -52,58 +54,29 @@ describe('render without crashing', () => {
       .toEqual(BLOCK.number.toString());
   });
 
+  describe('StatsList for each transactions', () => {
+    const StatsListItems = wrapper.findAll({ name: 'StatsList' });
 
-  describe('transactions items for block', () => {
-    it('items length', () => {
+    it('StatsListItems length', () => {
       expect(wrapper.vm.block.transactions)
-        .toHaveLength(transactions.length);
-      expect(items)
+          .toHaveLength(transactions.length);
+      expect(StatsListItems)
         .toHaveLength(transactions.length);
     });
 
-    transactions.forEach((transaction, idx) => {
-      const item = items.at(idx);
-      const dts = item.findAll('dt');
-      const dds = item.findAll('dd');
-
-      it('dts/dds length', () => {
-        expect(dts).toHaveLength(elements.length);
-        expect(dds).toHaveLength(elements.length);
-      });
-
-      elements.forEach(([title, value, percent], elementsIdx) => {
-        it(title, () => {
-          const dt = dts.at(elementsIdx);
-          expect(dt.text()).toEqual(title);
-          const dd = dds.at(elementsIdx);
-          expect(dd.text()).toEqual(value.toString());
-          const bar = dd.find('.stats');
-          if (percent === undefined) {
-            expect(bar.exists())
-              .toBe(false);
-          } else {
-            expect(bar.exists())
-              .toBe(true);
-            expect(bar.attributes('style'))
-              .toEqual(`width: ${ percent }%;`);
-          }
-        });
+    it('StatsListItems props', () => {
+      transactions.forEach((transaction, idx) => {
+        const StatsList = StatsListItems.at(idx);
+        expect(StatsList.props())
+          .toEqual({
+            src: transaction,
+            isBlockStats: false,
+            items: expect.any(Array),
+          });
       });
     });
   });
 });
-
-function getStore(blockIdx) {
-  return new Vuex.Store({
-    state: {
-      api: {
-        showTransactionsIdx: blockIdx,
-        transStats, blocks: [ BLOCK ],
-      }
-    },
-  });
-}
-
 
 it('hideTransactions', () => {
   const store = getStore(BLOCK_IDX);
@@ -115,3 +88,14 @@ it('hideTransactions', () => {
   expect(hideTransactions.props('blockIdx'))
     .toBeFalsy();
 });
+
+function getStore(blockIdx) {
+  return new Vuex.Store({
+    state: {
+      api: {
+        showTransactionsIdx: blockIdx,
+        blocks: [ BLOCK ],
+      }
+    },
+  });
+}
