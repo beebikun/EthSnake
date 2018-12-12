@@ -7,7 +7,7 @@ export default {
     commit('deleteToken', idx);
   },
   collectTokens({ dispatch, state }, idx) {
-    if (state[idx]) {
+    if (state[idx] != undefined) {
       dispatch('deleteToken', idx);
       dispatch('lvlupSnake');
     }
